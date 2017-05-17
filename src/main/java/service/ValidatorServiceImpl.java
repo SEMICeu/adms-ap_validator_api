@@ -116,38 +116,37 @@ public class ValidatorServiceImpl implements IValidatorService {
 		String s = currentRelativePath.toAbsolutePath().toString();
 //		System.out.println("Current relative path is: " + s);
 		
-
+		String result = new String();
 		try {
 			String fileName = downloadFile(parameters.getDataURI().getValue(), "C:\\Users\\vandeloc");
 			String rules = getText(parameters.getRulesURI().getValue());
 			rules = fillInSessionID(parameters.getSessionId(), rules);
 //			httpPut("C:\\Users\\vandeloc\\" + fileName);
-			validateFile(parameters.getDatabaseURI().getValue(), rules);		
+			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 				
 		ValidateResponse response = new ValidateResponse();
-		response.setReport("The report will be provided here.");		
+		response.setReport(result);		
 		return response;
 	}
 	
 	/**
      * Perform SPARQL query on the file to validate it.
      */
-    private void validateFile(String databaseURI, String rules) {
-    	System.out.println(rules);
-    	String service = "http://localhost:8890/sparql";
-        String query = "SELECT * FROM <http://localhost:8890/try> WHERE {?s ?p ?o}";
-        QueryExecution qe = QueryExecutionFactory.sparqlService(service, query);
+    private String validateFile(String databaseURI, String rules) {
+        QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
+        String result = new String();
         try {
            ResultSet results = qe.execSelect();
-           ResultSetFormatter.outputAsXML(System.out, results);
+           result = ResultSetFormatter.asXMLString(results);
         } catch (Exception e) {
             System.out.println("Query error:"+e);
         } finally {
             qe.close();
         }
+        return result;
 	}
 
 	/**
