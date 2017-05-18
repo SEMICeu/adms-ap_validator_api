@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema version="1.0" targetNamespace="http://entities/Validator"
+	xmlns="http://entities/Validator"
+	xmlns:tns="http://entities/Validator"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:gitb="http://www.gitb.com/core/v1/">
+	
+	<xsd:import namespace="http://www.gitb.com/core/v1/" schemaLocation="gitb_core.xsd"/>
+	
+	<xsd:element name="DefinitionRequestType" type="tns:Void" />
+	<xsd:element name="DefinitionResponseType" type="tns:GetModuleDefinitionResponse" />
+	<xsd:element name="ValidateRequestType" type="tns:ValidateRequest" />
+	<xsd:element name="ValidateResponseType" type="tns:ValidateResponse" />
+		
+	<xsd:complexType name="Void">
+		<xsd:sequence/>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetModuleDefinitionResponse">
+		<xsd:sequence>
+			<xsd:element name="module" type="gitb:ValidationModule" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ValidateRequest">
+        <xsd:sequence>
+            <xsd:element name="sessionId" type="xsd:string"  minOccurs="0" maxOccurs="1" />
+            <xsd:element name="dataURI" type="gitb:AnyContent" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="rulesURI" type="gitb:AnyContent" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="databaseURI" type="gitb:AnyContent" minOccurs="1" maxOccurs="1" />
+        </xsd:sequence>
+    </xsd:complexType>
+ 	
+	<xsd:complexType name="ValidateResponse">
+        <xsd:sequence>
+            <xsd:element name="report" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+ </xsd:schema>

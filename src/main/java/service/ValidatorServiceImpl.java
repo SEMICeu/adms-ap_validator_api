@@ -1,36 +1,28 @@
 package service;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import org.apache.commons.io.Charsets;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
@@ -52,8 +44,6 @@ import services.validatorservice.IValidatorService;
 @WebService(serviceName="ValidatorService", endpointInterface="services.validatorservice.IValidatorService",
 targetNamespace="http://services/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
 public class ValidatorServiceImpl implements IValidatorService {
-	
-    private static final int BUFFER_SIZE = 4096;
 
     /**
      * Get the module definition.
@@ -115,20 +105,18 @@ public class ValidatorServiceImpl implements IValidatorService {
 	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
 	partName = "parameters") ValidateRequest parameters) {
 		
-		if ( parameters.getSessionId() == null || parameters.getSessionId().toString().equalsIgnoreCase("?") ) {
+		if ( parameters.getSessionId() == null || parameters.getSessionId().toString().equalsIgnoreCase("?") 
+				|| parameters.getSessionId().toString().equalsIgnoreCase("")) {
 			parameters.setSessionId( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
 		}
-		Path currentRelativePath = Paths.get("");
-		String s = currentRelativePath.toAbsolutePath().toString();
-//		System.out.println("Current relative path is: " + s);
 		
 		String result = new String();
 		try {
-			String fileName = downloadFile(parameters.getDataURI().getValue(), "C:\\Users\\vandeloc");
+			String file = getText(parameters.getDataURI().getValue());
 			String rules = getText(parameters.getRulesURI().getValue());
 			rules = fillInSessionID(parameters.getSessionId(), rules);
-			httpPut("C:\\Users\\vandeloc\\" + fileName);
-//			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
+			httpPut(file, parameters.getSessionId());
+			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -139,45 +127,55 @@ public class ValidatorServiceImpl implements IValidatorService {
 		
 	}
 	
-	private static void httpPut(String fileName) {
-		
-        try {   	
-          	CredentialsProvider credsProvider = new BasicCredentialsProvider();
-            credsProvider.setCredentials(
-                    new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
-                    new UsernamePasswordCredentials("dba", "dba"));
-            
-            CloseableHttpClient client = HttpClients.custom()
-                    .setDefaultCredentialsProvider(credsProvider)
-                    .build();
-        	
-            HttpPost httpPost = new HttpPost("http://localhost:8890/sparql-graph-crud-auth");
-        	
-			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			System.out.println("location of file: " + fileName);
-			File file = new File(fileName);
-			builder.addPart("file", new FileBody(file));
-//			    builder.addBinaryBody("file", file, ContentType.create("application/rdf+xml"), file.getName());
-//			    builder.addTextBody(file.getName(), Files.toString(file, Charsets.UTF_8), ContentType.create("application/rdf+xml"));
-		    builder.addPart("named-graph-uri", new StringBody("http://localhost:8890/try", Charsets.UTF_8 ));
-//			    builder.addTextBody("default-graph-uri", "");
-		    HttpEntity multipart = builder.build();
-		 
-		    httpPost.setEntity(multipart);
-		    System.out.println(EntityUtils.toString(multipart));
-			CloseableHttpResponse response = client.execute(httpPost);
+	private static void httpPut(String xml,  String sessionID) {
+		try {
+			CredentialsProvider credsProvider = new BasicCredentialsProvider();
+			credsProvider.setCredentials(
+                  new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
+                  new UsernamePasswordCredentials("dba", "dba"));
+			
+			CloseableHttpClient client = HttpClients.custom()
+	                  .setDefaultCredentialsProvider(credsProvider)
+	                  .build();
+			
+//			URI proxyURI = new URI("http://localhost:8888");
+//			URI targetURI = new URI("http://localhost:8890");
+			
+//			HttpHost proxy = new HttpHost(proxyURI.getHost(), proxyURI.getPort(), proxyURI.getScheme());
+//			HttpHost target = new HttpHost(targetURI.getHost(), targetURI.getPort(), targetURI.getScheme());
+//			
+//			RequestConfig config = RequestConfig.custom()
+//                    .setProxy(proxy)
+//                    .build();
+			
+			System.out.println("sessionID" + sessionID);
+			String url = "http://localhost:8890/sparql-graph-crud-auth?graph-uri=http://localhost:8890/" + sessionID;
+			System.out.println(url);
+			HttpPost request = new HttpPost(url);
+//			request.setConfig(config);
+			
+			HttpEntity entity = new ByteArrayEntity(xml.getBytes("UTF-8"));
+			request.setEntity(entity);
+			request.setHeader(HttpHeaders.ACCEPT, "*/*");
+			request.setHeader(HttpHeaders.EXPECT, "100-continue");
+	        
+			client.execute(request);
 			client.close();
-			System.out.println(response.toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
 	}
 	
 	/**
      * Perform SPARQL query on the file to validate it.
      */
     private String validateFile(String databaseURI, String rules) {
+    	
+    	System.out.println(rules);
     	
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
         String result = new String();
@@ -200,7 +198,7 @@ public class ValidatorServiceImpl implements IValidatorService {
      */
     private String fillInSessionID(String sessionID, String rules) throws IOException {
     	
-		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<" + sessionID + ">");
+		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://localhost:8890/" + sessionID + ">");
 		return rules;
 		
 	}
@@ -228,64 +226,8 @@ public class ValidatorServiceImpl implements IValidatorService {
         }
 
         in.close();
-
+        
         return response.toString();
-        
-    }
-    
-
-	/**
-     * Downloads a file from a URL.
-     * @param fileURL HTTP URL of the file to be downloaded
-     * @param saveDir path of the directory to save the file
-     * @throws IOException
-     */
-    private static String downloadFile(String fileURL, String saveDir)
-            throws IOException {
-    	
-        URL url = new URL(fileURL);
-        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-        int responseCode = httpConn.getResponseCode();
-        String fileName = "";
-        
-        // always check HTTP response code first
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            String disposition = httpConn.getHeaderField("Content-Disposition");
- 
-            if (disposition != null) {
-                // extracts file name from header field
-                int index = disposition.indexOf("filename=");
-                if (index > 0) {
-                    fileName = disposition.substring(index + 10,
-                            disposition.length() - 1);
-                }
-            } else {
-                // extracts file name from URL
-                fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
-                        fileURL.length());
-            }
- 
-            // opens input stream from the HTTP connection
-            InputStream inputStream = httpConn.getInputStream();
-            String saveFilePath = saveDir + File.separator + fileName;
-             
-            // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
- 
-            int bytesRead = -1;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
- 
-            outputStream.close();
-            inputStream.close();
-        } else {
-            System.out.println("No file to download. Server replied HTTP code: " + responseCode);
-        }
-        httpConn.disconnect();
-        
-        return fileName;
         
     }
     
