@@ -59,7 +59,9 @@ public class ValidatorServiceImpl implements IValidatorService {
      * Get the module definition.
      */
 	@Override
-	public GetModuleDefinitionResponse getDefinition(@WebParam(name = "GetModuleDefinitionRequest", targetNamespace = "http://www.gitb.com/vs/v1/", partName = "parameters") Void aVoid) {
+	public GetModuleDefinitionResponse getDefinition(@WebParam(name = "GetModuleDefinitionRequest",
+	targetNamespace = "http://www.gitb.com/vs/v1/", partName = "parameters") Void aVoid) {
+		
         GetModuleDefinitionResponse response = new GetModuleDefinitionResponse();
         response.setModule(new ValidationModule());
         response.getModule().setId("ValidationService");
@@ -68,35 +70,37 @@ public class ValidatorServiceImpl implements IValidatorService {
         response.getModule().getMetadata().setName("ValidationService");
         response.getModule().getMetadata().setVersion("0.0.1");
         response.getModule().setInputs(new TypedParameters());
-        TypedParameter rulesInput =  new TypedParameter();
-        rulesInput.setName("url");
-        rulesInput.setType("URI");
-        rulesInput.setUse(UsageEnumeration.R);
-        rulesInput.setKind(ConfigurationType.SIMPLE);
-        rulesInput.setDesc("The url to the rules to be used to validate.");
-        response.getModule().getInputs().getParam().add(rulesInput);
-        TypedParameter fileInput =  new TypedParameter();
-        fileInput.setName("url");
-        fileInput.setType("URI");
-        fileInput.setUse(UsageEnumeration.R);
-        fileInput.setKind(ConfigurationType.SIMPLE);
-        fileInput.setDesc("The url to the data to upload and validate.");
-        response.getModule().getInputs().getParam().add(fileInput);
-        TypedParameter databaseInput =  new TypedParameter();
-        databaseInput.setName("url");
-        databaseInput.setType("URI");
-        databaseInput.setUse(UsageEnumeration.R);
-        databaseInput.setKind(ConfigurationType.SIMPLE);
-        databaseInput.setDesc("The url to the database which to query.");
-        response.getModule().getInputs().getParam().add(databaseInput);
-        TypedParameter sessionIDInput =  new TypedParameter();
-        sessionIDInput.setName("sessionID");
-        sessionIDInput.setType("long");
-        sessionIDInput.setUse(UsageEnumeration.O);
-        sessionIDInput.setKind(ConfigurationType.SIMPLE);
-        sessionIDInput.setDesc("The session ID. This parameter is optional.");
-        response.getModule().getInputs().getParam().add(sessionIDInput);
+        response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
+        		"url", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate."));
+        response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
+        		"url", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate."));
+        response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
+        		"url", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query."));
+        response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
+        		"sessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID. This parameter is optional."));
         return response;
+        
+	}
+	
+	/**
+     * Set parameter to be reported as an input in the ModuleDefinitionResponse
+     * @param name Name of the parameter
+     * @param type Type of the parameter (URI, long, ...)
+     * @param usage The usage of the parameter (optional, mandatory, ...)
+     * @param config The configuration of the parameter (simple, binary)
+     * @param description The description of the parameter
+     */
+	private TypedParameter setModuleDefinitionResponse(String name, String type, 
+			UsageEnumeration usage, ConfigurationType config, String description) {
+		
+		TypedParameter parameter =  new TypedParameter();
+		parameter.setName(name);
+		parameter.setType(type);
+		parameter.setUse(usage);
+		parameter.setKind(config);
+		parameter.setDesc(description);
+		return parameter;
+		
 	}
 
     /**
@@ -108,7 +112,9 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param parameters.getDatabaseURI() The URI of the database which to query.
      */
 	@Override
-	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/", partName = "parameters") ValidateRequest parameters) {		
+	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
+	partName = "parameters") ValidateRequest parameters) {
+		
 		if ( parameters.getSessionId() == null || parameters.getSessionId().toString().equalsIgnoreCase("?") ) {
 			parameters.setSessionId( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
 		}
@@ -121,8 +127,8 @@ public class ValidatorServiceImpl implements IValidatorService {
 			String fileName = downloadFile(parameters.getDataURI().getValue(), "C:\\Users\\vandeloc");
 			String rules = getText(parameters.getRulesURI().getValue());
 			rules = fillInSessionID(parameters.getSessionId(), rules);
-//			httpPut("C:\\Users\\vandeloc\\" + fileName);
-			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
+			httpPut("C:\\Users\\vandeloc\\" + fileName);
+//			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,12 +136,49 @@ public class ValidatorServiceImpl implements IValidatorService {
 		ValidateResponse response = new ValidateResponse();
 		response.setReport(result);		
 		return response;
+		
+	}
+	
+	private static void httpPut(String fileName) {
+		
+        try {   	
+          	CredentialsProvider credsProvider = new BasicCredentialsProvider();
+            credsProvider.setCredentials(
+                    new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
+                    new UsernamePasswordCredentials("dba", "dba"));
+            
+            CloseableHttpClient client = HttpClients.custom()
+                    .setDefaultCredentialsProvider(credsProvider)
+                    .build();
+        	
+            HttpPost httpPost = new HttpPost("http://localhost:8890/sparql-graph-crud-auth");
+        	
+			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+			System.out.println("location of file: " + fileName);
+			File file = new File(fileName);
+			builder.addPart("file", new FileBody(file));
+//			    builder.addBinaryBody("file", file, ContentType.create("application/rdf+xml"), file.getName());
+//			    builder.addTextBody(file.getName(), Files.toString(file, Charsets.UTF_8), ContentType.create("application/rdf+xml"));
+		    builder.addPart("named-graph-uri", new StringBody("http://localhost:8890/try", Charsets.UTF_8 ));
+//			    builder.addTextBody("default-graph-uri", "");
+		    HttpEntity multipart = builder.build();
+		 
+		    httpPost.setEntity(multipart);
+		    System.out.println(EntityUtils.toString(multipart));
+			CloseableHttpResponse response = client.execute(httpPost);
+			client.close();
+			System.out.println(response.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
 	}
 	
 	/**
      * Perform SPARQL query on the file to validate it.
      */
     private String validateFile(String databaseURI, String rules) {
+    	
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
         String result = new String();
         try {
@@ -147,6 +190,7 @@ public class ValidatorServiceImpl implements IValidatorService {
             qe.close();
         }
         return result;
+        
 	}
 
 	/**
@@ -155,8 +199,10 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @throws IOException 
      */
     private String fillInSessionID(String sessionID, String rules) throws IOException {
+    	
 		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<" + sessionID + ">");
 		return rules;
+		
 	}
     
 	/**
@@ -164,7 +210,8 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param fileURL HTTP URL of the file to be downloaded.
      * @throws IOException 
      */
-    public static String getText(String fileURL) throws Exception {
+    private static String getText(String fileURL) throws Exception {
+    	
     	String ls = System.getProperty("line.separator");
         URL website = new URL(fileURL);
         URLConnection connection = website.openConnection();
@@ -183,6 +230,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         in.close();
 
         return response.toString();
+        
     }
     
 
@@ -192,8 +240,9 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param saveDir path of the directory to save the file
      * @throws IOException
      */
-    public static String downloadFile(String fileURL, String saveDir)
+    private static String downloadFile(String fileURL, String saveDir)
             throws IOException {
+    	
         URL url = new URL(fileURL);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
@@ -237,38 +286,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         httpConn.disconnect();
         
         return fileName;
+        
     }
     
-    public static void httpPut(String fileName) {
-        try {   	
-          	CredentialsProvider credsProvider = new BasicCredentialsProvider();
-            credsProvider.setCredentials(
-                    new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
-                    new UsernamePasswordCredentials("dba", "dba"));
-            
-            CloseableHttpClient client = HttpClients.custom()
-                    .setDefaultCredentialsProvider(credsProvider)
-                    .build();
-        	
-            HttpPost httpPost = new HttpPost("http://localhost:8890/sparql-graph-crud-auth");
-        	
-			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			System.out.println("location of file: " + fileName);
-			File file = new File(fileName);
-			builder.addPart("file", new FileBody(file));
-//		    builder.addBinaryBody("file", file, ContentType.create("application/rdf+xml"), file.getName());
-//		    builder.addTextBody(file.getName(), Files.toString(file, Charsets.UTF_8), ContentType.create("application/rdf+xml"));
-		    builder.addPart("named-graph-uri", new StringBody("http://localhost:8890/try", Charsets.UTF_8 ));
-//		    builder.addTextBody("default-graph-uri", "");
-		    HttpEntity multipart = builder.build();
-		 
-		    httpPost.setEntity(multipart);
-		    System.out.println(EntityUtils.toString(multipart));
-			CloseableHttpResponse response = client.execute(httpPost);
-			client.close();
-			System.out.println(response.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
 }
