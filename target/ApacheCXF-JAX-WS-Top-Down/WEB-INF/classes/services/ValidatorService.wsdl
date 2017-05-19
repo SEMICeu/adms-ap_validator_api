@@ -62,7 +62,7 @@
 	<wsdl:service name="ValidatorService">
 		<wsdl:port name="ValidatorServicePort" binding="tns:ValidatorServiceSOAPBinding">
 			<soap:address
-				location="http://localhost:8080/ApacheCXF-JAX-WS-Top-Down/services/validator/ValidatorService" />
+				location="http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService" />
 		</wsdl:port>
 	</wsdl:service>
 

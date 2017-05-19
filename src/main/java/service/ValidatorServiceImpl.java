@@ -18,6 +18,7 @@ import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -52,6 +53,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 	public GetModuleDefinitionResponse getDefinition(@WebParam(name = "GetModuleDefinitionRequest",
 	targetNamespace = "http://www.gitb.com/vs/v1/", partName = "parameters") Void aVoid) {
 		
+		// Setup ValidationModule
         GetModuleDefinitionResponse response = new GetModuleDefinitionResponse();
         response.setModule(new ValidationModule());
         response.getModule().setId("ValidationService");
@@ -59,15 +61,16 @@ public class ValidatorServiceImpl implements IValidatorService {
         response.getModule().setMetadata(new Metadata());
         response.getModule().getMetadata().setName("ValidationService");
         response.getModule().getMetadata().setVersion("0.0.1");
+        //Set inputs
         response.getModule().setInputs(new TypedParameters());
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"url", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate."));
+        		"URL rules", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"url", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate."));
+        		"URL database", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"url", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query."));
+        		"URL data", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"sessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID. This parameter is optional."));
+        		"sessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
         return response;
         
 	}
@@ -94,7 +97,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 	}
 
     /**
-     * Download and validate a file against a sparql query (rules).
+     * Download and validate a file against a SPARQL query (rules).
      * @param parameters Parameters for the validation.
      * @param parameters.getSessionID() The session ID.
      * @param parameters.getDataURI() The URI of the data to be downloaded and validated.
@@ -104,40 +107,115 @@ public class ValidatorServiceImpl implements IValidatorService {
 	@Override
 	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
 	partName = "parameters") ValidateRequest parameters) {
-		
-		if ( parameters.getSessionId() == null || parameters.getSessionId().toString().equalsIgnoreCase("?") 
-				|| parameters.getSessionId().toString().equalsIgnoreCase("")) {
-			parameters.setSessionId( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
-		}
-		
-		String result = new String();
-		try {
-			String file = getText(parameters.getDataURI().getValue());
-			String rules = getText(parameters.getRulesURI().getValue());
-			rules = fillInSessionID(parameters.getSessionId(), rules);
-			httpPut(file, parameters.getSessionId());
-			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-				
 		ValidateResponse response = new ValidateResponse();
-		response.setReport(result);		
+		
+		// The data, database and rules URI are mandatory parameters.
+		// Check if it is filled in. If not (IF), skip all steps and warn the user; ELSE: do steps.
+		if (parameters.getDataURI() == null || parameters.getDataURI().getValue().toString().equalsIgnoreCase("?") 
+				|| parameters.getDataURI().getValue().toString().equalsIgnoreCase("")
+			|| parameters.getDatabaseURI()== null || parameters.getDatabaseURI().getValue().toString().equalsIgnoreCase("?") 
+					|| parameters.getDatabaseURI().getValue().toString().equalsIgnoreCase("")
+			|| parameters.getRulesURI() == null || parameters.getRulesURI().getValue().toString().equalsIgnoreCase("?") 
+					|| parameters.getRulesURI().getValue().toString().equalsIgnoreCase("")) 
+		{
+			// Fill in a warning for the user to provide all necessary parameters.
+			response.setReport("The URL data, database and and rules are mandatory parameters. Please provide all.");	
+			
+		} else {
+			
+			// The session ID is an optional parameter. If not provided, use the current time in ms as session ID.
+			if ( parameters.getSessionId() == null || parameters.getSessionId().toString().equalsIgnoreCase("?") 
+					|| parameters.getSessionId().toString().equalsIgnoreCase("")) {
+				parameters.setSessionId( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
+			}
+			
+			String result = new String();
+			// Get file as String.
+			String file = getText(parameters.getDataURI().getValue());
+			// Get SPARQL query as String.
+			String rules = getText(parameters.getRulesURI().getValue());
+			// Fill in the graph URI in the WHERE statement of the SPARQL query.
+			rules = fillInSessionID(parameters.getSessionId(), rules);
+			// Upload the file to the database using a HTTP POST request.
+			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionId());
+			// Perform the SPARQL query against the file and return the result as a String.
+			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
+			
+			// Fill in the result in the response.
+			response.setReport(result);	
+			
+		}
+		
 		return response;
 		
 	}
 	
-	private static void httpPut(String xml,  String sessionID) {
+	/**
+     * Downloads the content of a file to a string from a URL.
+     * @param fileURL HTTP URL of the file to download.
+     */
+    private static String getText(String fileURL) {
+    	// Initialise variables
+    	String ls = System.getProperty("line.separator");
+        URL website = null;
+        URLConnection connection = null;
+        BufferedReader in = null;
+        StringBuilder response = new StringBuilder();
+        String inputLine;
+        
 		try {
+			// Set up connection
+			website = new URL(fileURL);
+			connection = website.openConnection();
+			// Read file and append per line
+			in = new BufferedReader(
+			                        new InputStreamReader(
+			                            connection.getInputStream()));
+			while ((inputLine = in.readLine()) != null) {
+			    response.append(inputLine);
+				response.append(ls);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+        return response.toString();
+        
+    }
+    
+	/**
+     * Fill in the Graph URI in the rules file.
+     * @param sessionID The session ID to be filled in.
+     * @throws IOException 
+     */
+    private String fillInSessionID(String sessionID, String rules) {
+ 
+		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://localhost:8890/" + sessionID + ">");
+		return rules;
+		
+	}
+	
+    /**
+     * Upload the file to the server via a HTTP POST request
+     * @param file The file as a string.
+     * @param sessionID The session ID. This will also determine the graph URI.
+     */
+	private static void httpPOST(String file, String database, String sessionID) {
+		String url = null;
+		try {
+			// Set credentials for server
 			CredentialsProvider credsProvider = new BasicCredentialsProvider();
 			credsProvider.setCredentials(
                   new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
                   new UsernamePasswordCredentials("dba", "dba"));
 			
+			// Create HTTP client
 			CloseableHttpClient client = HttpClients.custom()
 	                  .setDefaultCredentialsProvider(credsProvider)
 	                  .build();
 			
+//			// Proxy settings for debugging purposes. Does not need to be enabled for final version.
 //			URI proxyURI = new URI("http://localhost:8888");
 //			URI targetURI = new URI("http://localhost:8890");
 			
@@ -148,18 +226,26 @@ public class ValidatorServiceImpl implements IValidatorService {
 //                    .setProxy(proxy)
 //                    .build();
 			
-			System.out.println("sessionID" + sessionID);
-			String url = "http://localhost:8890/sparql-graph-crud-auth?graph-uri=http://localhost:8890/" + sessionID;
-			System.out.println(url);
+			// configure the url to upload to and create POST request
+			if ( database.substring(database.length() - 1).equalsIgnoreCase("/")) {
+				database = database.substring(0, database.length() - 1);
+			}
+			url = database + "-graph-crud-auth?graph-uri=http://localhost:8890/" + sessionID;
 			HttpPost request = new HttpPost(url);
 //			request.setConfig(config);
 			
-			HttpEntity entity = new ByteArrayEntity(xml.getBytes("UTF-8"));
+			// Set the content and headers of the POST
+			HttpEntity entity = new ByteArrayEntity(file.getBytes("UTF-8"));
 			request.setEntity(entity);
 			request.setHeader(HttpHeaders.ACCEPT, "*/*");
 			request.setHeader(HttpHeaders.EXPECT, "100-continue");
 	        
-			client.execute(request);
+			// Execute the POST and print the response if not successful.
+			CloseableHttpResponse response = client.execute(request);
+			if (! (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201 )) {
+				System.out.println("Response: " + response.toString());
+				System.out.println("Tried to upload to: " + url);
+			}
 			client.close();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -167,6 +253,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("Tried to upload to: " + url);
 		}
 	}
 	
@@ -175,13 +262,13 @@ public class ValidatorServiceImpl implements IValidatorService {
      */
     private String validateFile(String databaseURI, String rules) {
     	
-    	System.out.println(rules);
-    	
+    	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
         String result = new String();
         try {
-           ResultSet results = qe.execSelect();
-           result = ResultSetFormatter.asXMLString(results);
+        	// Output the results as XML
+        	ResultSet results = qe.execSelect();
+        	result = ResultSetFormatter.asXMLString(results);
         } catch (Exception e) {
             System.out.println("Query error:"+e);
         } finally {
@@ -190,45 +277,5 @@ public class ValidatorServiceImpl implements IValidatorService {
         return result;
         
 	}
-
-	/**
-     * Fill in the session ID in the rules file.
-     * @param sessionID The session ID to be filled in.
-     * @throws IOException 
-     */
-    private String fillInSessionID(String sessionID, String rules) throws IOException {
-    	
-		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://localhost:8890/" + sessionID + ">");
-		return rules;
-		
-	}
-    
-	/**
-     * Downloads the content of a file to a string from a url.
-     * @param fileURL HTTP URL of the file to be downloaded.
-     * @throws IOException 
-     */
-    private static String getText(String fileURL) throws Exception {
-    	
-    	String ls = System.getProperty("line.separator");
-        URL website = new URL(fileURL);
-        URLConnection connection = website.openConnection();
-        BufferedReader in = new BufferedReader(
-                                new InputStreamReader(
-                                    connection.getInputStream()));
-
-        StringBuilder response = new StringBuilder();
-        String inputLine;
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        	response.append(ls);
-        }
-
-        in.close();
-        
-        return response.toString();
-        
-    }
     
 }

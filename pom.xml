@@ -3,11 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>in.bench.resources</groupId>
-	<artifactId>ApacheCXF-JAX-WS-Top-Down</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>Validator</artifactId>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
-	<name>ApacheCXF-JAX-WS-Top-Down</name>
-	<description>Apache-CXF JAX-WS : Top down approach for developing SOAP based web service</description>
+	<name>Validator</name>
 
 	<!-- properties -->
 	<properties>
@@ -166,4 +165,5 @@
 				</plugin>
 			</plugins>
 	</build>
+	<description>ADMS-AP Validator Service</description>
 </project>
