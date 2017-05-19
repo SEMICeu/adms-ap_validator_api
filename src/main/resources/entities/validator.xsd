@@ -24,10 +24,11 @@
 	
 	<xsd:complexType name="ValidateRequest">
         <xsd:sequence>
+            <xsd:element name="rulesURI" type="gitb:URIContent" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="databaseURI" type="gitb:URIContent" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="dataURI" type="gitb:URIContent" minOccurs="1" maxOccurs="1" />
             <xsd:element name="sessionId" type="xsd:string"  minOccurs="0" maxOccurs="1" />
-            <xsd:element name="dataURI" type="gitb:AnyContent" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="rulesURI" type="gitb:AnyContent" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="databaseURI" type="gitb:AnyContent" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="outputFormat" type="gitb:outputFormat" minOccurs="0" maxOccurs="1" />
         </xsd:sequence>
     </xsd:complexType>
  	

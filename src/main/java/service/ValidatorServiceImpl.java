@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.ParseException;
@@ -71,6 +72,9 @@ public class ValidatorServiceImpl implements IValidatorService {
         		"URL data", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"sessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
+        response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
+        		"outputFormat", "String", UsageEnumeration.O, ConfigurationType.SIMPLE, "The format in which you want the output to be provided. Possible values are: "
+        				+ "XML, JSON, TSV and CSV. If not provided, the ouput will be in XML format."));
         return response;
         
 	}
@@ -139,7 +143,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Upload the file to the database using a HTTP POST request.
 			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionId());
 			// Perform the SPARQL query against the file and return the result as a String.
-			result = validateFile(parameters.getDatabaseURI().getValue(), rules);		
+			result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
 			
 			// Fill in the result in the response.
 			response.setReport(result);	
@@ -260,15 +264,31 @@ public class ValidatorServiceImpl implements IValidatorService {
 	/**
      * Perform SPARQL query on the file to validate it.
      */
-    private String validateFile(String databaseURI, String rules) {
+    private String validateFile(String databaseURI, String rules, String outputFormat) {
+    	
+    	System.out.println(outputFormat);
     	
     	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
+    	ResultSet results = qe.execSelect();
         String result = new String();
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
-        	// Output the results as XML
-        	ResultSet results = qe.execSelect();
-        	result = ResultSetFormatter.asXMLString(results);
+        	if ( outputFormat == "XML" ) {
+        		// Output the results as XML
+        		ResultSetFormatter.outputAsXML(stream, results);
+        	}  else if ( outputFormat == "JSON" ) {
+        		// Output the results as JSON
+        		ResultSetFormatter.outputAsJSON(stream, results);
+         	} else if ( outputFormat == "TSV" ) {
+         	// Output the results as TSV
+        		ResultSetFormatter.outputAsTSV(stream, results);
+        	} else if ( outputFormat == "CSV" ) {
+        		// Output the results as CSV
+        		ResultSetFormatter.outputAsCSV(stream, results);
+        	}
+        	result = stream.toString("UTF-8");
+        	
         } catch (Exception e) {
             System.out.println("Query error:"+e);
         } finally {

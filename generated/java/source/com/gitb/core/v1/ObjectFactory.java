@@ -42,35 +42,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AnyContent }
-     * 
-     */
-    public AnyContent createAnyContent() {
-        return new AnyContent();
-    }
-
-    /**
-     * Create an instance of {@link TypedParameter }
-     * 
-     */
-    public TypedParameter createTypedParameter() {
-        return new TypedParameter();
-    }
-
-    /**
      * Create an instance of {@link Metadata }
      * 
      */
     public Metadata createMetadata() {
         return new Metadata();
-    }
-
-    /**
-     * Create an instance of {@link Parameter }
-     * 
-     */
-    public Parameter createParameter() {
-        return new Parameter();
     }
 
     /**
@@ -82,6 +58,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link TypedParameters }
+     * 
+     */
+    public TypedParameters createTypedParameters() {
+        return new TypedParameters();
+    }
+
+    /**
+     * Create an instance of {@link TypedParameter }
+     * 
+     */
+    public TypedParameter createTypedParameter() {
+        return new TypedParameter();
+    }
+
+    /**
+     * Create an instance of {@link Parameter }
+     * 
+     */
+    public Parameter createParameter() {
+        return new Parameter();
+    }
+
+    /**
      * Create an instance of {@link ValidationModule }
      * 
      */
@@ -90,11 +90,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link TypedParameters }
+     * Create an instance of {@link OutputFormat }
      * 
      */
-    public TypedParameters createTypedParameters() {
-        return new TypedParameters();
+    public OutputFormat createOutputFormat() {
+        return new OutputFormat();
+    }
+
+    /**
+     * Create an instance of {@link URIContent }
+     * 
+     */
+    public URIContent createURIContent() {
+        return new URIContent();
     }
 
     /**

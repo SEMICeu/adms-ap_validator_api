@@ -92,7 +92,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	<!--Representation (serialisation) of a GITB value -->
-	<xsd:complexType name="AnyContent">
+	<xsd:complexType name="URIContent">
 		<xsd:sequence>
 			<xsd:element name="value" type="xsd:anyURI" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
@@ -102,6 +102,22 @@
 	<xsd:simpleType name="ValueEmbeddingEnumeration">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="URI"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+<!-- outputFormat -->
+	<xsd:complexType name="outputFormat">
+		<xsd:sequence>
+			<xsd:element name="value" type="outputFormatEnumeration" minOccurs="1" maxOccurs="1" default="XML"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Enumeration for output format of the result -->
+	<xsd:simpleType name="outputFormatEnumeration">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="XML"/>
+			<xsd:enumeration value="Table"/>
+			<xsd:enumeration value="JSON"/>
+			<xsd:enumeration value="TSV"/>
+			<xsd:enumeration value="CSV"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 </xsd:schema>
