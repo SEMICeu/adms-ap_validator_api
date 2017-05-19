@@ -2,11 +2,6 @@
 <xsd:schema xmlns="http://www.gitb.com/core/v1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.gitb.com/core/v1/" elementFormDefault="qualified" version="1.0">
 	<xsd:element name="module" type="TestModule"/>
 	<!--General Metadata element to describe the metadata of artifacts-->
-	<xsd:simpleType name="ID">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[a-zA-Z0-9_]+"/>
-		</xsd:restriction>
-	</xsd:simpleType>
 	<xsd:complexType name="Metadata">
 		<xsd:sequence>
 			<xsd:element name="name" type="xsd:string"/>
@@ -17,59 +12,6 @@
 			<xsd:element name="published" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="lastModified" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
-	</xsd:complexType>
-	<xsd:complexType name="ActorConfiguration">
-		<xsd:sequence>
-			<xsd:element name="config" type="Configuration" maxOccurs="unbounded"/>
-		</xsd:sequence>
-		<xsd:attribute name="actor" type="xsd:string" use="required"/>
-		<xsd:attribute name="endpoint" type="xsd:string" use="optional"/>
-	</xsd:complexType>
-	<!-- List of Actor Definitions-->
-	<xsd:complexType name="Actors">
-		<xsd:sequence>
-			<xsd:element name="actor" type="Actor" maxOccurs="unbounded"/>
-		</xsd:sequence>
-	</xsd:complexType>
-	<!-- Complete Definition of an Actor-->
-	<xsd:complexType name="Actor">
-		<xsd:sequence>
-			<xsd:element name="name" type="xsd:string"/>
-			<xsd:element name="desc" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="endpoint" type="Endpoint" maxOccurs="unbounded"/>
-		</xsd:sequence>
-		<xsd:attribute name="id" type="ID" use="required"/>
-	</xsd:complexType>
-	<!--Endpoint definition-->
-	<xsd:complexType name="Endpoint">
-		<xsd:sequence>
-			<xsd:element name="config" type="Parameter" maxOccurs="unbounded"/>
-		</xsd:sequence>
-		<xsd:attribute name="name" type="ID" use="required"/>
-		<xsd:attribute name="desc" type="xsd:string" use="optional"/>
-	</xsd:complexType>
-	<!-- List of Testcase Role Definitions-->
-	<xsd:complexType name="Roles">
-		<xsd:sequence>
-			<xsd:element name="actor" type="TestRole" maxOccurs="unbounded"/>
-		</xsd:sequence>
-	</xsd:complexType>
-	<!--List of Testcase Role definition-->
-	<xsd:complexType name="TestRole">
-		<xsd:sequence>
-			<xsd:element name="endpoint" type="Endpoint" minOccurs="0" maxOccurs="unbounded"/>
-		</xsd:sequence>
-		<xsd:attribute name="id" type="xsd:ID" use="required"/>
-		<xsd:attribute name="name" type="xsd:string" use="required"/>
-		<xsd:attribute name="role" type="TestRoleEnumeration" use="required"/>
-	</xsd:complexType>
-	<!-- Configuration name-value pair -->
-	<xsd:complexType name="Configuration">
-		<xsd:simpleContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="name" type="xsd:string" use="required"/>
-			</xsd:extension>
-		</xsd:simpleContent>
 	</xsd:complexType>
 	<!-- Abstract TestModule definition -->
 	<xsd:complexType name="TestModule">
@@ -94,28 +36,13 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<!--Messaging Module Definition-->
-	<xsd:complexType name="MessagingModule">
-		<xsd:complexContent>
-			<xsd:extension base="TestModule">
-				<xsd:sequence>
-					<xsd:element name="actorConfigs" type="ConfigurationParameters"/>
-					<xsd:element name="transactionConfigs" type="ConfigurationParameters" minOccurs="0"/>
-					<xsd:element name="listenConfigs" type="ConfigurationParameters" minOccurs="0"/>
-					<xsd:element name="receiveConfigs" type="ConfigurationParameters" minOccurs="0"/>
-					<xsd:element name="sendConfigs" type="ConfigurationParameters" minOccurs="0"/>
-				</xsd:sequence>
-				<xsd:attribute name="isProxy" type="xsd:boolean" use="optional" default="true"/>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
 	<!--List of configuration parameters-->
 	<xsd:complexType name="ConfigurationParameters">
 		<xsd:sequence>
 			<xsd:element name="param" type="Parameter" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<!--List of typed paremeters-->
+	<!--List of typed parameters-->
 	<xsd:complexType name="TypedParameters">
 		<xsd:sequence>
 			<xsd:element name="param" type="TypedParameter" maxOccurs="unbounded"/>
@@ -164,7 +91,7 @@
 			<!-- binary type -->
 		</xsd:restriction>
 	</xsd:simpleType>
-	<!--Representation (serialization) of a GITB value -->
+	<!--Representation (serialisation) of a GITB value -->
 	<xsd:complexType name="AnyContent">
 		<xsd:sequence>
 			<xsd:element name="value" type="xsd:anyURI" minOccurs="1" maxOccurs="1" />
@@ -177,42 +104,4 @@
 			<xsd:enumeration value="URI"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<!-- Enumeration for representing the format of the given content-->
-	<xsd:simpleType name="TestRoleEnumeration">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="SUT"/>
-			<xsd:enumeration value="SIMULATED"/>
-			<xsd:enumeration value="MONITOR"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<!-- Enumeration indicating the status of a test step execution-->
-	<xsd:simpleType name="StepStatus">
-		<xsd:restriction base="xsd:NMTOKEN">
-			<xsd:enumeration value="PROCESSING"/>
-			<xsd:enumeration value="SKIPPED"/>
-			<xsd:enumeration value="WAITING"/>
-			<xsd:enumeration value="ERROR"/>
-			<xsd:enumeration value="COMPLETED"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-    <xsd:simpleType name="ErrorCode">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="ACTOR_DEFINITION_NOT_FOUND"/>
-            <xsd:enumeration value="ARTIFACT_NOT_FOUND"/>
-            <xsd:enumeration value="CANCELLATION" />
-            <xsd:enumeration value="DATATYPE_ERROR" />
-            <xsd:enumeration value="INTERNAL_ERROR"/>
-            <xsd:enumeration value="INVALID_SESSION" />
-            <xsd:enumeration value="INVALID_TEST_CASE" />
-            <xsd:enumeration value="MISSING_CONFIGURATION" />
-            <xsd:enumeration value="INVALID_CONFIGURATION" />
-            <xsd:enumeration value="TEST_CASE_DEFINITION_NOT_FOUND"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:complexType name="ErrorInfo">
-        <xsd:sequence>
-            <xsd:element name="errorCode" type="ErrorCode" />
-            <xsd:element name="description" type="xsd:string" />
-        </xsd:sequence>
-    </xsd:complexType>
 </xsd:schema>

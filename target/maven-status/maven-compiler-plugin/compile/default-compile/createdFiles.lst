@@ -1,14 +1,7 @@
 entities\validator\ValidateRequest.class
-com\gitb\core\v1\Actors.class
 services\validatorservice\ValidatorService.class
-com\gitb\core\v1\Configuration.class
-com\gitb\core\v1\ErrorCode.class
 com\gitb\core\v1\ConfigurationType.class
 com\gitb\core\v1\ValidationModule.class
-com\gitb\core\v1\Actor.class
-com\gitb\core\v1\Roles.class
-com\gitb\core\v1\ErrorInfo.class
-com\gitb\core\v1\StepStatus.class
 entities\validator\ObjectFactory.class
 com\gitb\core\v1\AnyContent.class
 com\gitb\core\v1\ConfigurationParameters.class
@@ -17,12 +10,9 @@ com\gitb\core\v1\ValueEmbeddingEnumeration.class
 com\gitb\core\v1\package-info.class
 entities\validator\package-info.class
 com\gitb\core\v1\Parameter.class
-com\gitb\core\v1\ActorConfiguration.class
-com\gitb\core\v1\Endpoint.class
 com\gitb\core\v1\UsageEnumeration.class
 entities\validator\ValidateResponse.class
 com\gitb\core\v1\TestModule.class
-com\gitb\core\v1\TestRoleEnumeration.class
 com\gitb\core\v1\Metadata.class
 entities\validator\Void.class
 entities\validator\GetModuleDefinitionResponse.class
@@ -31,5 +21,3 @@ com\gitb\core\v1\TypedParameter.class
 com\gitb\core\v1\TestCaseType.class
 com\gitb\core\v1\ObjectFactory.class
 services\validatorservice\IValidatorService.class
-com\gitb\core\v1\MessagingModule.class
-com\gitb\core\v1\TestRole.class
