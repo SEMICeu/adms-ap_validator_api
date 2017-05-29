@@ -1,13 +1,16 @@
 package service;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -46,7 +49,9 @@ import services.validatorservice.IValidatorService;
 @WebService(serviceName="ValidatorService", endpointInterface="services.validatorservice.IValidatorService",
 targetNamespace="http://services/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
 public class ValidatorServiceImpl implements IValidatorService {
-
+	String username;
+	String password;
+	
     /**
      * Get the module definition.
      */
@@ -111,6 +116,8 @@ public class ValidatorServiceImpl implements IValidatorService {
 	@Override
 	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
 	partName = "parameters") ValidateRequest parameters) {
+		getConfigurationValues();
+		
 		ValidateResponse response = new ValidateResponse();
 		
 		// The data, database and rules URI are mandatory parameters.
@@ -141,7 +148,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Fill in the graph URI in the WHERE statement of the SPARQL query.
 			rules = fillInSessionID(parameters.getSessionId(), rules);
 			// Upload the file to the database using a HTTP POST request.
-			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionId());
+			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionId(), getUsername(), getPassword());
 			// Perform the SPARQL query against the file and return the result as a String.
 			result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
 			
@@ -153,7 +160,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 		return response;
 		
 	}
-	
+
 	/**
      * Downloads the content of a file to a string from a URL.
      * @param fileURL HTTP URL of the file to download.
@@ -195,7 +202,7 @@ public class ValidatorServiceImpl implements IValidatorService {
      */
     private String fillInSessionID(String sessionID, String rules) {
  
-		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://localhost:8890/" + sessionID + ">");
+		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://" + sessionID + ">");
 		return rules;
 		
 	}
@@ -205,7 +212,7 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param file The file as a string.
      * @param sessionID The session ID. This will also determine the graph URI.
      */
-	private static void httpPOST(String file, String database, String sessionID) {
+	private static void httpPOST(String file, String database, String sessionID, String username, String password) {
 		String url = null;
 		try {
 			// Set credentials for server
@@ -234,7 +241,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			if ( database.substring(database.length() - 1).equalsIgnoreCase("/")) {
 				database = database.substring(0, database.length() - 1);
 			}
-			url = database + "-graph-crud-auth?graph-uri=http://localhost:8890/" + sessionID;
+			url = database + "-graph-crud-auth?graph-uri=http://" + sessionID;
 			HttpPost request = new HttpPost(url);
 //			request.setConfig(config);
 			
@@ -266,8 +273,6 @@ public class ValidatorServiceImpl implements IValidatorService {
      */
     private String validateFile(String databaseURI, String rules, String outputFormat) {
     	
-    	System.out.println(outputFormat);
-    	
     	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
     	ResultSet results = qe.execSelect();
@@ -296,6 +301,52 @@ public class ValidatorServiceImpl implements IValidatorService {
         }
         return result;
         
+	}
+
+    private void getConfigurationValues() {
+	    InputStream inputStream = null;
+		
+		try {
+			Properties prop = new Properties();
+			String propFileName = "config.properties";
+ 
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+ 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+ 
+			setUsername("username");
+			setPassword("password");
+ 
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		} finally {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return;
+	}
+	
+	private void setUsername(String username) {
+		this.username = username;
+	}
+	
+	private String getUsername() {
+		return this.username;
+	}
+	
+	private void setPassword(String password) {
+		this.password = password;
+	}
+	
+	private String getPassword() {
+		return this.password;
 	}
     
 }
