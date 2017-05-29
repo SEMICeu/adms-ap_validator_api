@@ -2,7 +2,6 @@
 package com.gitb.core.v1;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -15,7 +14,6 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;simpleType name="outputFormatEnumeration">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *     &lt;enumeration value="XML"/>
- *     &lt;enumeration value="Table"/>
  *     &lt;enumeration value="JSON"/>
  *     &lt;enumeration value="TSV"/>
  *     &lt;enumeration value="CSV"/>
@@ -28,29 +26,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum OutputFormatEnumeration {
 
-    XML("XML"),
-    @XmlEnumValue("Table")
-    TABLE("Table"),
-    JSON("JSON"),
-    TSV("TSV"),
-    CSV("CSV");
-    private final String value;
-
-    OutputFormatEnumeration(String v) {
-        value = v;
-    }
+    XML,
+    JSON,
+    TSV,
+    CSV;
 
     public String value() {
-        return value;
+        return name();
     }
 
     public static OutputFormatEnumeration fromValue(String v) {
-        for (OutputFormatEnumeration c: OutputFormatEnumeration.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+        return valueOf(v);
     }
 
 }

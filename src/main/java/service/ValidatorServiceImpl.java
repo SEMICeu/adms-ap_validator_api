@@ -37,14 +37,14 @@ import com.gitb.core.v1.TypedParameters;
 import com.gitb.core.v1.UsageEnumeration;
 import com.gitb.core.v1.ValidationModule;
 
-import entities.validator.GetModuleDefinitionResponse;
-import entities.validator.ValidateRequest;
-import entities.validator.ValidateResponse;
-import entities.validator.Void;
-import services.validatorservice.IValidatorService;
+import eu.semic.adms_ap.validator._1_0.xsd.GetModuleDefinitionResponse;
+import eu.semic.adms_ap.validator._1_0.xsd.ValidateRequest;
+import eu.semic.adms_ap.validator._1_0.xsd.ValidateResponse;
+import eu.semic.adms_ap.validator._1_0.xsd.Void;
+import eu.semic.adms_ap.validatorservice.IValidatorService;
 
 @WebService(serviceName="ValidatorService", endpointInterface="services.validatorservice.IValidatorService",
-targetNamespace="http://services/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
+targetNamespace="http://adms-ap.semic.eu/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
 public class ValidatorServiceImpl implements IValidatorService {
 
     /**

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	targetNamespace="http://services/ValidatorService/"
-	xmlns:tns="http://services/ValidatorService/" xmlns:val="http://entities/Validator"
+	targetNamespace="http://adms-ap.semic.eu/ValidatorService/"
+	xmlns:tns="http://adms-ap.semic.eu/ValidatorService/" xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd"
 	name="ValidatorService">
 
 	<wsdl:types>
-		<xsd:schema targetNamespace="http://services/ValidatorService/">
-			<xsd:import namespace="http://entities/Validator"
+		<xsd:schema targetNamespace="http://adms-ap.semic.eu/ValidatorService/">
+			<xsd:import namespace="http://adms-ap.semic.eu/validator/1.0/xsd"
 				schemaLocation="../entities/validator.xsd" />
 		</xsd:schema>
 	</wsdl:types>

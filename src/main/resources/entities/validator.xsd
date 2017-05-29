@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema version="1.0" targetNamespace="http://entities/Validator"
-	xmlns="http://entities/Validator"
-	xmlns:tns="http://entities/Validator"
+<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd"
+	xmlns="http://adms-ap.semic.eu/validator/1.0/xsd"
+	xmlns:tns="http://adms-ap.semic.eu/validator/1.0/xsd"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:gitb="http://www.gitb.com/core/v1/">
+	xmlns:gitb="http://www.gitb.com/core/v1/"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+	version="1.0">
 	
 	<xsd:import namespace="http://www.gitb.com/core/v1/" schemaLocation="gitb_core.xsd"/>
 	
