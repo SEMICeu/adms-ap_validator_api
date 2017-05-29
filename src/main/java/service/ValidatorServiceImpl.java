@@ -41,10 +41,10 @@ import eu.semic.adms_ap.validator._1_0.xsd.GetModuleDefinitionResponse;
 import eu.semic.adms_ap.validator._1_0.xsd.ValidateRequest;
 import eu.semic.adms_ap.validator._1_0.xsd.ValidateResponse;
 import eu.semic.adms_ap.validator._1_0.xsd.Void;
-import eu.semic.adms_ap.validatorservice.IValidatorService;
+import services.validatorservice.IValidatorService;
 
 @WebService(serviceName="ValidatorService", endpointInterface="services.validatorservice.IValidatorService",
-targetNamespace="http://adms-ap.semic.eu/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
+targetNamespace="http://services/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
 public class ValidatorServiceImpl implements IValidatorService {
 
     /**
