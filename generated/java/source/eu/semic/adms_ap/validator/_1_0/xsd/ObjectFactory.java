@@ -27,6 +27,7 @@ public class ObjectFactory {
     private final static QName _DefinitionRequestType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "DefinitionRequestType");
     private final static QName _ValidateResponseType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "ValidateResponseType");
     private final static QName _DefinitionResponseType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "DefinitionResponseType");
+    private final static QName _MissingParameterException_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "MissingParameterException");
     private final static QName _ValidateRequestType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "ValidateRequestType");
 
     /**
@@ -58,6 +59,14 @@ public class ObjectFactory {
      */
     public GetModuleDefinitionResponse createGetModuleDefinitionResponse() {
         return new GetModuleDefinitionResponse();
+    }
+
+    /**
+     * Create an instance of {@link MissingParameterException }
+     * 
+     */
+    public MissingParameterException createMissingParameterException() {
+        return new MissingParameterException();
     }
 
     /**
@@ -93,6 +102,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://adms-ap.semic.eu/validator/1.0/xsd", name = "DefinitionResponseType")
     public JAXBElement<GetModuleDefinitionResponse> createDefinitionResponseType(GetModuleDefinitionResponse value) {
         return new JAXBElement<GetModuleDefinitionResponse>(_DefinitionResponseType_QNAME, GetModuleDefinitionResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link MissingParameterException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://adms-ap.semic.eu/validator/1.0/xsd", name = "MissingParameterException")
+    public JAXBElement<MissingParameterException> createMissingParameterException(MissingParameterException value) {
+        return new JAXBElement<MissingParameterException>(_MissingParameterException_QNAME, MissingParameterException.class, null, value);
     }
 
     /**

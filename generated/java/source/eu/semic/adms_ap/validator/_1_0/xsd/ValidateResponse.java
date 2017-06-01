@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="sessionID" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="report" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -28,12 +29,39 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidateResponse", propOrder = {
+    "sessionID",
     "report"
 })
 public class ValidateResponse {
 
     @XmlElement(required = true)
+    protected String sessionID;
+    @XmlElement(required = true)
     protected String report;
+
+    /**
+     * Gets the value of the sessionID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    /**
+     * Sets the value of the sessionID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSessionID(String value) {
+        this.sessionID = value;
+    }
 
     /**
      * Gets the value of the report property.

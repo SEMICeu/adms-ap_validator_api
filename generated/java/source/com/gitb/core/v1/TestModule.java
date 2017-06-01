@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "outputs"
 })
 @XmlSeeAlso({
+    MessagingModule.class,
     ValidationModule.class
 })
 public class TestModule {

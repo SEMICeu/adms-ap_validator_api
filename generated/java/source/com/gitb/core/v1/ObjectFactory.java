@@ -42,6 +42,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Configuration }
+     * 
+     */
+    public Configuration createConfiguration() {
+        return new Configuration();
+    }
+
+    /**
      * Create an instance of {@link Metadata }
      * 
      */
@@ -58,11 +66,83 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Endpoint }
+     * 
+     */
+    public Endpoint createEndpoint() {
+        return new Endpoint();
+    }
+
+    /**
+     * Create an instance of {@link Actor }
+     * 
+     */
+    public Actor createActor() {
+        return new Actor();
+    }
+
+    /**
+     * Create an instance of {@link AnyContent }
+     * 
+     */
+    public AnyContent createAnyContent() {
+        return new AnyContent();
+    }
+
+    /**
+     * Create an instance of {@link ErrorInfo }
+     * 
+     */
+    public ErrorInfo createErrorInfo() {
+        return new ErrorInfo();
+    }
+
+    /**
+     * Create an instance of {@link Actors }
+     * 
+     */
+    public Actors createActors() {
+        return new Actors();
+    }
+
+    /**
+     * Create an instance of {@link Roles }
+     * 
+     */
+    public Roles createRoles() {
+        return new Roles();
+    }
+
+    /**
+     * Create an instance of {@link ActorConfiguration }
+     * 
+     */
+    public ActorConfiguration createActorConfiguration() {
+        return new ActorConfiguration();
+    }
+
+    /**
      * Create an instance of {@link TypedParameters }
      * 
      */
     public TypedParameters createTypedParameters() {
         return new TypedParameters();
+    }
+
+    /**
+     * Create an instance of {@link MessagingModule }
+     * 
+     */
+    public MessagingModule createMessagingModule() {
+        return new MessagingModule();
+    }
+
+    /**
+     * Create an instance of {@link TestRole }
+     * 
+     */
+    public TestRole createTestRole() {
+        return new TestRole();
     }
 
     /**
@@ -87,22 +167,6 @@ public class ObjectFactory {
      */
     public ValidationModule createValidationModule() {
         return new ValidationModule();
-    }
-
-    /**
-     * Create an instance of {@link OutputFormat }
-     * 
-     */
-    public OutputFormat createOutputFormat() {
-        return new OutputFormat();
-    }
-
-    /**
-     * Create an instance of {@link URIContent }
-     * 
-     */
-    public URIContent createURIContent() {
-        return new URIContent();
     }
 
     /**

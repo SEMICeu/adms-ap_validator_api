@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import com.gitb.core.v1.OutputFormat;
-import com.gitb.core.v1.URIContent;
+import eu.semic.adms_ap.validator._1_0.xsd._2.OutputFormat;
+import eu.semic.adms_ap.validator._1_0.xsd._2.URIContent;
 
 
 /**
@@ -19,11 +19,11 @@ import com.gitb.core.v1.URIContent;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="rulesURI" type="{http://www.gitb.com/core/v1/}URIContent"/>
- *         &lt;element name="databaseURI" type="{http://www.gitb.com/core/v1/}URIContent"/>
- *         &lt;element name="dataURI" type="{http://www.gitb.com/core/v1/}URIContent"/>
- *         &lt;element name="sessionId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="outputFormat" type="{http://www.gitb.com/core/v1/}outputFormat" minOccurs="0"/>
+ *         &lt;element name="rulesURI" type="{http://adms-ap.semic.eu/validator/1.0/xsd/2}URIContent"/>
+ *         &lt;element name="databaseURI" type="{http://adms-ap.semic.eu/validator/1.0/xsd/2}URIContent"/>
+ *         &lt;element name="dataURI" type="{http://adms-ap.semic.eu/validator/1.0/xsd/2}URIContent"/>
+ *         &lt;element name="sessionID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="outputFormat" type="{http://adms-ap.semic.eu/validator/1.0/xsd/2}outputFormat" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +37,7 @@ import com.gitb.core.v1.URIContent;
     "rulesURI",
     "databaseURI",
     "dataURI",
-    "sessionId",
+    "sessionID",
     "outputFormat"
 })
 public class ValidateRequest {
@@ -48,7 +48,7 @@ public class ValidateRequest {
     protected URIContent databaseURI;
     @XmlElement(required = true)
     protected URIContent dataURI;
-    protected String sessionId;
+    protected String sessionID;
     protected OutputFormat outputFormat;
 
     /**
@@ -124,27 +124,27 @@ public class ValidateRequest {
     }
 
     /**
-     * Gets the value of the sessionId property.
+     * Gets the value of the sessionID property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getSessionId() {
-        return sessionId;
+    public String getSessionID() {
+        return sessionID;
     }
 
     /**
-     * Sets the value of the sessionId property.
+     * Sets the value of the sessionID property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setSessionId(String value) {
-        this.sessionId = value;
+    public void setSessionID(String value) {
+        this.sessionID = value;
     }
 
     /**

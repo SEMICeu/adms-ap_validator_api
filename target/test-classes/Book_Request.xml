@@ -1,9 +1,0 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-	xmlns:book="http://benchresources.in/entities/Book">
-	<soapenv:Header />
-	<soapenv:Body>
-		<book:BookRequestType>
-			<book:isbnNumber>ISBN-2134</book:isbnNumber>
-		</book:BookRequestType>
-	</soapenv:Body>
-</soapenv:Envelope>

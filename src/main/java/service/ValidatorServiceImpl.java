@@ -45,6 +45,10 @@ import eu.semic.adms_ap.validator._1_0.xsd.ValidateRequest;
 import eu.semic.adms_ap.validator._1_0.xsd.ValidateResponse;
 import eu.semic.adms_ap.validator._1_0.xsd.Void;
 import services.validatorservice.IValidatorService;
+import services.validatorservice.MissingParameter;
+import eu.semic.adms_ap.validator._1_0.xsd.MissingParameterException;
+
+import javax.xml.ws.handler.soap.SOAPHandler;
 
 @WebService(serviceName="ValidatorService", endpointInterface="services.validatorservice.IValidatorService",
 targetNamespace="http://services/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
@@ -66,7 +70,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         response.getModule().setOperation("V");
         response.getModule().setMetadata(new Metadata());
         response.getModule().getMetadata().setName("ValidationService");
-        response.getModule().getMetadata().setVersion("0.0.1");
+        response.getModule().getMetadata().setVersion("0.0.2");
         //Set inputs
         response.getModule().setInputs(new TypedParameters());
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
@@ -76,7 +80,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"URL data", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"sessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
+        		"SessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"outputFormat", "String", UsageEnumeration.O, ConfigurationType.SIMPLE, "The format in which you want the output to be provided. Possible values are: "
         				+ "XML, JSON, TSV and CSV. If not provided, the ouput will be in XML format."));
@@ -112,10 +116,11 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param parameters.getDataURI() The URI of the data to be downloaded and validated.
      * @param parameters.getRulesURI() The URI of the rules to be used for the validation.
      * @param parameters.getDatabaseURI() The URI of the database which to query.
+     * @throws MissingParameter 
      */
 	@Override
 	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
-	partName = "parameters") ValidateRequest parameters) {
+	partName = "parameters") ValidateRequest parameters) throws MissingParameter {
 		getConfigurationValues();
 		
 		ValidateResponse response = new ValidateResponse();
@@ -129,15 +134,19 @@ public class ValidatorServiceImpl implements IValidatorService {
 			|| parameters.getRulesURI() == null || parameters.getRulesURI().getValue().toString().equalsIgnoreCase("?") 
 					|| parameters.getRulesURI().getValue().toString().equalsIgnoreCase("")) 
 		{
-			// Fill in a warning for the user to provide all necessary parameters.
-			response.setReport("The URL data, database and and rules are mandatory parameters. Please provide all.");	
+			// 
+//			response.setReport("The URL data, database and and rules are mandatory parameters. Please provide all.");
+			MissingParameterException error = new MissingParameterException();
+			error.setFaultCode("Sender");
+			error.setFaultString("The URL data, database and and rules are mandatory parameters. Please provide all.");
+			throw new MissingParameter("Missing Parameter", error);
 			
 		} else {
 			
 			// The session ID is an optional parameter. If not provided, use the current time in ms as session ID.
-			if ( parameters.getSessionId() == null || parameters.getSessionId().toString().equalsIgnoreCase("?") 
-					|| parameters.getSessionId().toString().equalsIgnoreCase("")) {
-				parameters.setSessionId( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
+			if ( parameters.getSessionID() == null || parameters.getSessionID().toString().equalsIgnoreCase("?") 
+					|| parameters.getSessionID().toString().equalsIgnoreCase("")) {
+				parameters.setSessionID( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
 			}
 			
 			String result = new String();
@@ -146,14 +155,15 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Get SPARQL query as String.
 			String rules = getText(parameters.getRulesURI().getValue());
 			// Fill in the graph URI in the WHERE statement of the SPARQL query.
-			rules = fillInSessionID(parameters.getSessionId(), rules);
+			rules = fillInSessionID(parameters.getSessionID(), rules);
 			// Upload the file to the database using a HTTP POST request.
-			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionId(), getUsername(), getPassword());
+			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionID(), getUsername(), getPassword());
 			// Perform the SPARQL query against the file and return the result as a String.
 			result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
 			
 			// Fill in the result in the response.
-			response.setReport(result);	
+			response.setReport(result);
+			response.setSessionID(parameters.getSessionID().toString());
 			
 		}
 		
@@ -189,6 +199,8 @@ public class ValidatorServiceImpl implements IValidatorService {
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println(e.toString());
+			// throw new Invalid
 		}
         
         return response.toString();
@@ -197,12 +209,12 @@ public class ValidatorServiceImpl implements IValidatorService {
     
 	/**
      * Fill in the Graph URI in the rules file.
-     * @param sessionID The session ID to be filled in.
+     * @param SessionID The session ID to be filled in.
      * @throws IOException 
      */
-    private String fillInSessionID(String sessionID, String rules) {
+    private String fillInSessionID(String SessionID, String rules) {
  
-		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://" + sessionID + ">");
+		rules = rules.replaceAll("<@@@TOKEN-GRAPH@@@>", "<http://" + SessionID + ">");
 		return rules;
 		
 	}
@@ -210,9 +222,9 @@ public class ValidatorServiceImpl implements IValidatorService {
     /**
      * Upload the file to the server via a HTTP POST request
      * @param file The file as a string.
-     * @param sessionID The session ID. This will also determine the graph URI.
+     * @param SessionID The session ID. This will also determine the graph URI.
      */
-	private static void httpPOST(String file, String database, String sessionID, String username, String password) {
+	private static void httpPOST(String file, String database, String SessionID, String username, String password) {
 		String url = null;
 		try {
 			// Set credentials for server
@@ -241,28 +253,26 @@ public class ValidatorServiceImpl implements IValidatorService {
 			if ( database.substring(database.length() - 1).equalsIgnoreCase("/")) {
 				database = database.substring(0, database.length() - 1);
 			}
-			url = database + "-graph-crud-auth?graph-uri=http://" + sessionID;
+			url = database + "-graph-crud-auth?graph-uri=http://" + SessionID;
 			HttpPost request = new HttpPost(url);
 //			request.setConfig(config);
 			
 			// Set the content and headers of the POST
-			HttpEntity entity = new ByteArrayEntity(file.getBytes("UTF-8"));
+			HttpEntity entity = new ByteArrayEntity(file.getBytes("UTF-8"));   // Encoding
 			request.setEntity(entity);
 			request.setHeader(HttpHeaders.ACCEPT, "*/*");
 			request.setHeader(HttpHeaders.EXPECT, "100-continue");
 	        
 			// Execute the POST and print the response if not successful.
-			CloseableHttpResponse response = client.execute(request);
+			CloseableHttpResponse response = client.execute(request);   // IOException
 			if (! (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201 )) {
 				System.out.println("Response: " + response.toString());
 				System.out.println("Tried to upload to: " + url);
 			}
-			client.close();
+			client.close();    // IO Exception
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		}  catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Tried to upload to: " + url);
 		}

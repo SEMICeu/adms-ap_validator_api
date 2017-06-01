@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>in.bench.resources</groupId>
 	<artifactId>Validator</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<packaging>war</packaging>
 	<name>Validator</name>
 
@@ -154,8 +154,13 @@
 								<wsdlOptions>
 									<wsdlOption>
 										<wsdl>${basedir}/src/main/resources/services/ValidatorService.wsdl</wsdl>
+										
 									</wsdlOption>
 								</wsdlOptions>
+								<defaultOptions>
+									<exceptionSuper>java.lang.Exception</exceptionSuper>
+									<faultSerialVersionUID>1</faultSerialVersionUID>
+								</defaultOptions>
 							</configuration>
 							<goals>
 								<goal>wsdl2java</goal>
