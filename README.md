@@ -70,6 +70,7 @@ The output of the validate operation is a string containing the XML, JSON, CSV o
 Next to this, the output also contains your sessionID and the amount of results.
 
 Example:
+'''xml
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Body>
       <ns2:ValidateResponseType xmlns="http://adms-ap.semic.eu/validator/1.0/xsd/2" xmlns:ns2="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns3="http://www.gitb.com/core/v1/">
@@ -116,7 +117,7 @@ Example:
       </ns2:ValidateResponseType>
    </soap:Body>
 </soap:Envelope>
-
+'''
 
 <h2>Licence</h2>
 This software is released with EUPL licence: https://joinup.ec.europa.eu/community/eupl/home
