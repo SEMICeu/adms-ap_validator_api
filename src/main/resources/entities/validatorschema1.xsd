@@ -16,7 +16,7 @@
 	<xsd:element name="DefinitionResponseType" type="tns:GetModuleDefinitionResponse" />
 	<xsd:element name="ValidateRequestType" type="tns:ValidateRequest" />
 	<xsd:element name="ValidateResponseType" type="tns:ValidateResponse" />
-	<xsd:element name="MissingParameterException" type="tns:MissingParameterException"/>
+	<xsd:element name="ADMSException" type="tns:ADMSExceptionError"/>
 		
 	<xsd:complexType name="Void">
 		<xsd:sequence/>
@@ -45,7 +45,7 @@
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:complexType name="MissingParameterException">
+    <xsd:complexType name="ADMSExceptionError">
 	    <xsd:sequence>
 	      <xsd:element name="faultCode" type="xsd:string" />
 	      <xsd:element name="faultString" type="xsd:string" />

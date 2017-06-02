@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	targetNamespace="http://services/ValidatorService/"
-	xmlns:tns="http://services/ValidatorService/" xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd"
+<wsdl:definitions targetNamespace="http://services/ValidatorService/"
+	xmlns="http://services/ValidatorService/"
+	xmlns:tns="http://services/ValidatorService/"
+	xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	name="ValidatorService">
 
 	<wsdl:types>
@@ -24,8 +27,8 @@
 	<wsdl:message name="ValidateResponse">
 		<wsdl:part element="val:ValidateResponseType" name="parameters" />
 	</wsdl:message>
-	<wsdl:message name="MissingParameter">
-		<wsdl:part element="val:MissingParameterException" name="fault" /> 
+	<wsdl:message name="ADMSError">
+		<wsdl:part element="val:ADMSException" name="fault" /> 
   	</wsdl:message>
   	
 
@@ -37,7 +40,7 @@
 		<wsdl:operation name="validate">
 			<wsdl:input message="tns:ValidateRequest" />
 			<wsdl:output message="tns:ValidateResponse" />
-			<wsdl:fault message="tns:MissingParameter" name="MissingParameter" />
+			<wsdl:fault message="tns:ADMSError" name="ADMSError" />
 		</wsdl:operation>
 	</wsdl:portType>
 
@@ -61,8 +64,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="MissingParameter">
-		    	<soap:fault name="MissingParameter" use="literal" />
+			<wsdl:fault name="ADMSError">
+		    	<soap:fault name="ADMSError" use="literal" />
 		    </wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>

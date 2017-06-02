@@ -1,7 +1,6 @@
 package service;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +17,6 @@ import javax.jws.WebService;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -40,15 +38,13 @@ import com.gitb.core.v1.TypedParameters;
 import com.gitb.core.v1.UsageEnumeration;
 import com.gitb.core.v1.ValidationModule;
 
+import eu.semic.adms_ap.validator._1_0.xsd.ADMSExceptionError;
 import eu.semic.adms_ap.validator._1_0.xsd.GetModuleDefinitionResponse;
 import eu.semic.adms_ap.validator._1_0.xsd.ValidateRequest;
 import eu.semic.adms_ap.validator._1_0.xsd.ValidateResponse;
 import eu.semic.adms_ap.validator._1_0.xsd.Void;
+import services.validatorservice.ADMSError;
 import services.validatorservice.IValidatorService;
-import services.validatorservice.MissingParameter;
-import eu.semic.adms_ap.validator._1_0.xsd.MissingParameterException;
-
-import javax.xml.ws.handler.soap.SOAPHandler;
 
 @WebService(serviceName="ValidatorService", endpointInterface="services.validatorservice.IValidatorService",
 targetNamespace="http://services/ValidatorService/", portName="ValidatorServicePort", name="ValidatorServiceImpl")
@@ -120,7 +116,7 @@ public class ValidatorServiceImpl implements IValidatorService {
      */
 	@Override
 	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
-	partName = "parameters") ValidateRequest parameters) throws MissingParameter {
+	partName = "parameters") ValidateRequest parameters) throws ADMSError {
 		getConfigurationValues();
 		
 		ValidateResponse response = new ValidateResponse();
@@ -134,12 +130,11 @@ public class ValidatorServiceImpl implements IValidatorService {
 			|| parameters.getRulesURI() == null || parameters.getRulesURI().getValue().toString().equalsIgnoreCase("?") 
 					|| parameters.getRulesURI().getValue().toString().equalsIgnoreCase("")) 
 		{
-			// 
-//			response.setReport("The URL data, database and and rules are mandatory parameters. Please provide all.");
-			MissingParameterException error = new MissingParameterException();
+			// Throw Exception using SOAP Fault Message 
+			ADMSExceptionError error = new ADMSExceptionError();
 			error.setFaultCode("Sender");
 			error.setFaultString("The URL data, database and and rules are mandatory parameters. Please provide all.");
-			throw new MissingParameter("Missing Parameter", error);
+			throw new ADMSError("Missing Parameter", error);
 			
 		} else {
 			
@@ -149,7 +144,6 @@ public class ValidatorServiceImpl implements IValidatorService {
 				parameters.setSessionID( String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() ) );
 			}
 			
-			String result = new String();
 			// Get file as String.
 			String file = getText(parameters.getDataURI().getValue());
 			// Get SPARQL query as String.
@@ -159,7 +153,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Upload the file to the database using a HTTP POST request.
 			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionID(), getUsername(), getPassword());
 			// Perform the SPARQL query against the file and return the result as a String.
-			result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
+			String result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
 			
 			// Fill in the result in the response.
 			response.setReport(result);
@@ -174,8 +168,9 @@ public class ValidatorServiceImpl implements IValidatorService {
 	/**
      * Downloads the content of a file to a string from a URL.
      * @param fileURL HTTP URL of the file to download.
+	 * @throws ADMSError 
      */
-    private static String getText(String fileURL) {
+    private static String getText(String fileURL) throws ADMSError {
     	// Initialise variables
     	String ls = System.getProperty("line.separator");
         URL website = null;
@@ -199,8 +194,11 @@ public class ValidatorServiceImpl implements IValidatorService {
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println(e.toString());
-			// throw new Invalid
+			// Throw Exception using SOAP Fault Message 
+			ADMSExceptionError error = new ADMSExceptionError();
+			error.setFaultCode("Sender");
+			error.setFaultString(e.toString());
+			throw new ADMSError("Download of the file did not succeed", error);
 		}
         
         return response.toString();
@@ -223,8 +221,10 @@ public class ValidatorServiceImpl implements IValidatorService {
      * Upload the file to the server via a HTTP POST request
      * @param file The file as a string.
      * @param SessionID The session ID. This will also determine the graph URI.
+     * @throws ADMSError 
      */
-	private static void httpPOST(String file, String database, String SessionID, String username, String password) {
+	private static void httpPOST(String file, String database, String SessionID, String username, String password)
+			throws ADMSError {
 		String url = null;
 		try {
 			// Set credentials for server
@@ -266,22 +266,35 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Execute the POST and print the response if not successful.
 			CloseableHttpResponse response = client.execute(request);   // IOException
 			if (! (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201 )) {
-				System.out.println("Response: " + response.toString());
-				System.out.println("Tried to upload to: " + url);
+				// Throw Exception using SOAP Fault Message 
+				ADMSExceptionError error = new ADMSExceptionError();
+				error.setFaultCode("Sender");
+				error.setFaultString("Response: " + response.toString() + ".Tried to upload to: " + url );
+				throw new ADMSError("Upload of the file did not succeed", error);
 			}
 			client.close();    // IO Exception
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			// Throw Exception using SOAP Fault Message 
+			ADMSExceptionError error = new ADMSExceptionError();
+			error.setFaultCode("Sender");
+			error.setFaultString(e.toString());
+			throw new ADMSError("Upload of the file did not succeed", error);
 		}  catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("Tried to upload to: " + url);
+			// Throw Exception using SOAP Fault Message 
+			ADMSExceptionError error = new ADMSExceptionError();
+			error.setFaultCode("Sender");
+			error.setFaultString(e.toString() + ".Tried to upload to: " + url );
+			throw new ADMSError("Upload of the file did not succeed", error);
 		}
 	}
 	
 	/**
      * Perform SPARQL query on the file to validate it.
+	 * @throws ADMSError 
      */
-    private String validateFile(String databaseURI, String rules, String outputFormat) {
+    private String validateFile(String databaseURI, String rules, String outputFormat) throws ADMSError {
     	
     	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
@@ -305,7 +318,12 @@ public class ValidatorServiceImpl implements IValidatorService {
         	result = stream.toString("UTF-8");
         	
         } catch (Exception e) {
-            System.out.println("Query error:"+e);
+        	e.printStackTrace();
+			// Throw Exception using SOAP Fault Message 
+			ADMSExceptionError error = new ADMSExceptionError();
+			error.setFaultCode("Sender");
+			error.setFaultString(e.toString());
+			throw new ADMSError("Validation of the file did not succeed", error);
         } finally {
             qe.close();
         }
@@ -313,7 +331,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         
 	}
 
-    private void getConfigurationValues() {
+    private void getConfigurationValues() throws ADMSError {
 	    InputStream inputStream = null;
 		
 		try {
@@ -321,23 +339,29 @@ public class ValidatorServiceImpl implements IValidatorService {
 			String propFileName = "config.properties";
  
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
- 
-			if (inputStream != null) {
-				prop.load(inputStream);
-			} else {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-			}
+			prop.load(inputStream);
  
 			setUsername("username");
 			setPassword("password");
  
-		} catch (Exception e) {
-			System.out.println("Exception: " + e);
-		} finally {
+		}	catch (Exception e) {
+			e.printStackTrace();
+			// Throw Exception using SOAP Fault Message 
+			ADMSExceptionError error = new ADMSExceptionError();
+			error.setFaultCode("Sender");
+			error.setFaultString(e.toString());
+			throw new ADMSError("Configuration not loaded", error);
+		} 
+		finally {
 			try {
 				inputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
+				// Throw Exception using SOAP Fault Message 
+				ADMSExceptionError error = new ADMSExceptionError();
+				error.setFaultCode("Receiver");
+				error.setFaultString(e.toString());
+				throw new ADMSError("Configuration not loaded", error);
 			}
 		}
 		return;

@@ -18,7 +18,6 @@ com\gitb\core\v1\AnyContent.class
 com\gitb\core\v1\ConfigurationParameters.class
 com\gitb\core\v1\TypedParameters.class
 com\gitb\core\v1\ValueEmbeddingEnumeration.class
-eu\semic\adms_ap\validator\_1_0\xsd\MissingParameterException.class
 eu\semic\adms_ap\validator\_1_0\xsd\Void.class
 com\gitb\core\v1\package-info.class
 com\gitb\core\v1\Parameter.class
@@ -26,11 +25,12 @@ eu\semic\adms_ap\validator\_1_0\xsd\_2\ObjectFactory.class
 com\gitb\core\v1\ActorConfiguration.class
 com\gitb\core\v1\Endpoint.class
 com\gitb\core\v1\UsageEnumeration.class
+services\validatorservice\ADMSError.class
 com\gitb\core\v1\TestModule.class
 com\gitb\core\v1\TestRoleEnumeration.class
 com\gitb\core\v1\Metadata.class
+eu\semic\adms_ap\validator\_1_0\xsd\ADMSExceptionError.class
 service\ValidatorServiceImpl.class
-services\validatorservice\MissingParameter.class
 com\gitb\core\v1\TypedParameter.class
 eu\semic\adms_ap\validator\_1_0\xsd\_2\OutputFormatEnumeration.class
 com\gitb\core\v1\TestCaseType.class

@@ -92,6 +92,17 @@
 		</dependency>
 
 	</dependencies>
+	
+	<reporting>
+		<plugins>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-javadoc-plugin</artifactId>
+		        <version>2.10.4</version>
+		        <configuration></configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<build>
 		<finalName>ADMS-AP_Validator_Service</finalName>
@@ -168,6 +179,7 @@
 						</execution>
 					</executions>
 				</plugin>
+				
 			</plugins>
 	</build>
 	<description>ADMS-AP Validator Service</description>

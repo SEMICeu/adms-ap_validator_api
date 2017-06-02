@@ -5,12 +5,12 @@ C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\j
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\Endpoint.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\_2\OutputFormat.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ConfigurationType.java
-C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\MissingParameterException.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ConfigurationParameters.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ErrorCode.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\_2\URIContent.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ObjectFactory.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\services\validatorservice\IValidatorService.java
+C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\ADMSExceptionError.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\Metadata.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\ObjectFactory.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ValueEmbeddingEnumeration.java
@@ -23,10 +23,10 @@ C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\j
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\_2\ObjectFactory.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ActorConfiguration.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\AnyContent.java
+C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\services\validatorservice\ADMSError.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\ValidationModule.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\MessagingModule.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\_2\OutputFormatEnumeration.java
-C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\services\validatorservice\MissingParameter.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\eu\semic\adms_ap\validator\_1_0\xsd\GetModuleDefinitionResponse.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\TypedParameter.java
 C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse workspace\APIval\generated\java\source\com\gitb\core\v1\UsageEnumeration.java

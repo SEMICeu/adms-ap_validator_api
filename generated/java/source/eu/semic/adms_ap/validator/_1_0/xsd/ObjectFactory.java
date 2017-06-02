@@ -27,7 +27,7 @@ public class ObjectFactory {
     private final static QName _DefinitionRequestType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "DefinitionRequestType");
     private final static QName _ValidateResponseType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "ValidateResponseType");
     private final static QName _DefinitionResponseType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "DefinitionResponseType");
-    private final static QName _MissingParameterException_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "MissingParameterException");
+    private final static QName _ADMSException_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "ADMSException");
     private final static QName _ValidateRequestType_QNAME = new QName("http://adms-ap.semic.eu/validator/1.0/xsd", "ValidateRequestType");
 
     /**
@@ -62,11 +62,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link MissingParameterException }
+     * Create an instance of {@link ADMSExceptionError }
      * 
      */
-    public MissingParameterException createMissingParameterException() {
-        return new MissingParameterException();
+    public ADMSExceptionError createADMSExceptionError() {
+        return new ADMSExceptionError();
     }
 
     /**
@@ -105,12 +105,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link MissingParameterException }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ADMSExceptionError }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://adms-ap.semic.eu/validator/1.0/xsd", name = "MissingParameterException")
-    public JAXBElement<MissingParameterException> createMissingParameterException(MissingParameterException value) {
-        return new JAXBElement<MissingParameterException>(_MissingParameterException_QNAME, MissingParameterException.class, null, value);
+    @XmlElementDecl(namespace = "http://adms-ap.semic.eu/validator/1.0/xsd", name = "ADMSException")
+    public JAXBElement<ADMSExceptionError> createADMSException(ADMSExceptionError value) {
+        return new JAXBElement<ADMSExceptionError>(_ADMSException_QNAME, ADMSExceptionError.class, null, value);
     }
 
     /**
