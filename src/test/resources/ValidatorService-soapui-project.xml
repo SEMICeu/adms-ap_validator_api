@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="213470eb-ab47-49d3-af8f-284db7023306" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="7dc01773-3e5f-45ca-ac34-7c3e05f2d8c3" wsaVersion="NONE" name="ValidatorServiceSOAPBinding" type="wsdl" bindingName="{http://services/ValidatorService/}ValidatorServiceSOAPBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/vandeloc/Documents/Documents/SEMIC/Eclipse%20workspace/APIval/src/main/resources/services/ValidatorService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl"><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://services/ValidatorService/" name="ValidatorService" xmlns="http://services/ValidatorService/" xmlns:tns="http://services/ValidatorService/" xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<con:soapui-project id="065e4ed6-246e-4b1f-a66c-d5dbfc7f1821" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="6740121d-a7b1-4d3a-be3b-2c265369e81e" wsaVersion="NONE" name="ValidatorServiceSOAPBinding" type="wsdl" bindingName="{http://services/ValidatorService/}ValidatorServiceSOAPBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/vandeloc/Documents/Documents/SEMIC/Eclipse%20workspace/APIval/src/main/resources/services/ValidatorService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl"><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://services/ValidatorService/" name="ValidatorService" xmlns="http://services/ValidatorService/" xmlns:tns="http://services/ValidatorService/" xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
     <xsd:schema targetNamespace="http://services/ValidatorService/">
       <xsd:import namespace="http://adms-ap.semic.eu/validator/1.0/xsd" schemaLocation="../entities/validatorschema1.xsd"/>
@@ -88,6 +88,7 @@
   <xsd:complexType name="ValidateResponse">
     <xsd:sequence>
       <xsd:element name="sessionID" type="xsd:string"/>
+      <xsd:element name="ResultsCount" type="xsd:int"/>
       <xsd:element name="report" type="xsd:string"/>
     </xsd:sequence>
   </xsd:complexType>
@@ -347,51 +348,51 @@
       <xsd:element name="description" type="xsd:string"/>
     </xsd:sequence>
   </xsd:complexType>
-</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint></con:endpoints><con:operation id="bc5723a5-52c4-43e1-811b-6a369784d32e" isOneWay="false" action="" name="getDefinition" bindingOperationName="getDefinition" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ef73a4fb-c1d3-4c1f-8dd5-c9d3ff2148ae" name="getDefinition"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd">\r
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint></con:endpoints><con:operation id="5d8aa50f-731a-43fe-8e1a-95af670282c2" isOneWay="false" action="" name="getDefinition" bindingOperationName="getDefinition" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="656c34d0-cf93-4c6b-94aa-6928d90852de" name="getDefinition"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd">\r
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <xsd:DefinitionRequestType/>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/getDefinitionRequest"/></con:call></con:operation><con:operation id="9a618290-d68d-4bcb-88ad-b6fd13ec85ce" isOneWay="false" action="" name="validate" bindingOperationName="validate" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="5dcfe180-12c1-4412-a1b0-21622723421d" name="validation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <xsd:ValidateRequestType>\r
-         <xsd:rulesURI embeddingMethod="URI">\r
-            <ns:value>http://localhost:8890/sparql.txt</ns:value>\r
-         </xsd:rulesURI>\r
-         <xsd:databaseURI embeddingMethod="URI">\r
-            <ns:value>http://localhost:8890/spql</ns:value>\r
-         </xsd:databaseURI>\r
-         <xsd:dataURI embeddingMethod="URI">\r
-            <ns:value>http://localhost:8890/data.ttl</ns:value>\r
-         </xsd:dataURI>\r
-         <!--Optional:-->\r
-         <xsd:sessionID>?</xsd:sessionID>\r
-         <!--Optional:-->\r
-         <xsd:outputFormat>\r
-            <ns:value>XML</ns:value>\r
-         </xsd:outputFormat>\r
-      </xsd:ValidateRequestType>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/validateRequest"/><con:wsrmConfig version="1.2"/></con:call><con:call id="efe353e4-5318-4e95-a95b-4948b78eac28" name="Fault message"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <xsd:ValidateRequestType>\r
-         <xsd:rulesURI embeddingMethod="URI">\r
-            <ns:value>http://localhost:8890/sparql.txt</ns:value>\r
-         </xsd:rulesURI>\r
-         <xsd:databaseURI embeddingMethod="URI">\r
-            <ns:value>http://localhost:8890/sparql</ns:value>\r
-         </xsd:databaseURI>\r
-         <xsd:dataURI embeddingMethod="URI">\r
-            <ns:value>http://localhost:8890/data.ttl</ns:value>\r
-         </xsd:dataURI>\r
-         <!--Optional:-->\r
-         <xsd:sessionID>?</xsd:sessionID>\r
-         <!--Optional:-->\r
-         <xsd:outputFormat>\r
-            <ns:value>XML</ns:value>\r
-         </xsd:outputFormat>\r
-      </xsd:ValidateRequestType>\r
-   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/getDefinitionRequest"/></con:call></con:operation><con:operation id="642c657f-2b22-455d-9882-61240f82a93f" isOneWay="false" action="" name="validate" bindingOperationName="validate" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ddbae70a-9725-4336-8a21-95d94b3ef9da" name="Fault message"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:ValidateRequestType>
+         <xsd:rulesURI embeddingMethod="URI">
+            <ns:value>?</ns:value>
+         </xsd:rulesURI>
+         <xsd:databaseURI embeddingMethod="URI">
+            <ns:value>?</ns:value>
+         </xsd:databaseURI>
+         <xsd:dataURI embeddingMethod="URI">
+            <ns:value>?</ns:value>
+         </xsd:dataURI>
+         <!--Optional:-->
+         <xsd:sessionID>?</xsd:sessionID>
+         <!--Optional:-->
+         <xsd:outputFormat>
+            <ns:value>XML</ns:value>
+         </xsd:outputFormat>
+      </xsd:ValidateRequestType>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/validateRequest"/><con:wsrmConfig version="1.2"/></con:call><con:call id="4dbd7efc-f665-4e0d-a12e-b68d451e2c23" name="validation with 6 results as XML"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <xsd:ValidateRequestType>
+         <xsd:rulesURI embeddingMethod="URI">
+            <ns:value>http://localhost:8890/sparql.txt</ns:value>
+         </xsd:rulesURI>
+         <xsd:databaseURI embeddingMethod="URI">
+            <ns:value>http://localhost:8890/spql</ns:value>
+         </xsd:databaseURI>
+         <xsd:dataURI embeddingMethod="URI">
+            <ns:value>http://localhost:8890/data.ttl</ns:value>
+         </xsd:dataURI>
+         <!--Optional:-->
+         <xsd:sessionID>?</xsd:sessionID>
+         <!--Optional:-->
+         <xsd:outputFormat>
+            <ns:value>XML</ns:value>
+         </xsd:outputFormat>
+      </xsd:ValidateRequestType>
+   </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/validateRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
