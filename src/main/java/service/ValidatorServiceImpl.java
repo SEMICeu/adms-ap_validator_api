@@ -155,11 +155,11 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Upload the file to the database using a HTTP POST request.
 			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionID(), getUsername(), getPassword());
 			// Perform the SPARQL query against the file and return the result as a String.
-			validateResult result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
+			String result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
 			
 			// Fill in the result in the response.
-			response.setReport(result.getResult());
-			response.setResultsCount(result.getResultCount());
+			response.setReport(result);
+			response.setResultsCount(StringUtils.countOccurrencesOf(result, "<result>"));
 			response.setSessionID(parameters.getSessionID().toString());
 			
 		}
@@ -238,7 +238,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			CredentialsProvider credsProvider = new BasicCredentialsProvider();
 			credsProvider.setCredentials(
                   new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
-                  new UsernamePasswordCredentials("dba", "dba"));
+                  new UsernamePasswordCredentials(username, password));
 			
 			// Create HTTP client
 			CloseableHttpClient client = HttpClients.custom()
@@ -260,7 +260,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			if ( database.substring(database.length() - 1).equalsIgnoreCase("/")) {
 				database = database.substring(0, database.length() - 1);
 			}
-			url = database + "-graph-crud-auth?graph-uri=http://" + SessionID;
+			url = database + "-graph-crud?graph-uri=http://" + SessionID;
 			HttpPost request = new HttpPost(url);
 //			request.setConfig(config);
 			
@@ -304,8 +304,7 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param outputFormat The format in which the output should be provided.
 	 * @throws ADMSError 
      */
-    private validateResult validateFile(String databaseURI, String rules, String outputFormat) throws ADMSError {
-    	validateResult valResult;
+    private String validateFile(String databaseURI, String rules, String outputFormat) throws ADMSError {
     	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
     	ResultSet results = qe.execSelect(); 	 
@@ -327,8 +326,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         		ResultSetFormatter.outputAsCSV(stream, results);
         	}
         	result = stream.toString("UTF-8");
-        	int occurance = StringUtils.countOccurrencesOf(result, "<result>");
-        	valResult = new validateResult(occurance, result);
+//        	int occurance = StringUtils.countOccurrencesOf(result, "<result>");
         	
         } catch (Exception e) {
         	e.printStackTrace();
@@ -340,7 +338,7 @@ public class ValidatorServiceImpl implements IValidatorService {
         } finally {
             qe.close();
         }
-		return valResult;
+		return result;
         
 	}
 
@@ -355,7 +353,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 			Properties prop = new Properties();
 			String propFileName = "config.properties";
  
-			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(propFileName);
 			prop.load(inputStream);
  
 			setUsername("username");

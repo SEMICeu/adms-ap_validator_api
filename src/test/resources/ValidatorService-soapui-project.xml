@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="832211f9-1469-40aa-b3a1-32d8a9ec414a" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="18ff9a6b-d39b-482f-9ab0-527ff8aaba5b" wsaVersion="NONE" name="ValidatorServiceSOAPBinding" type="wsdl" bindingName="{http://services/ValidatorService/}ValidatorServiceSOAPBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/vandeloc/Documents/Documents/SEMIC/Eclipse%20workspace/APIval/src/main/resources/services/ValidatorService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl"><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://services/ValidatorService/" name="ValidatorService" xmlns="http://services/ValidatorService/" xmlns:tns="http://services/ValidatorService/" xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<con:soapui-project id="065e4ed6-246e-4b1f-a66c-d5dbfc7f1821" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="6740121d-a7b1-4d3a-be3b-2c265369e81e" wsaVersion="NONE" name="ValidatorServiceSOAPBinding" type="wsdl" bindingName="{http://services/ValidatorService/}ValidatorServiceSOAPBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/vandeloc/Documents/Documents/SEMIC/Eclipse%20workspace/APIval/src/main/resources/services/ValidatorService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl"><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\services\ValidatorService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://services/ValidatorService/" name="ValidatorService" xmlns="http://services/ValidatorService/" xmlns:tns="http://services/ValidatorService/" xmlns:val="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
     <xsd:schema targetNamespace="http://services/ValidatorService/">
       <xsd:import namespace="http://adms-ap.semic.eu/validator/1.0/xsd" schemaLocation="../entities/validatorschema1.xsd"/>
@@ -60,8 +60,8 @@
       <soap:address location="http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\entities\validatorschema1.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:tns="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gitb="http://www.gitb.com/core/v1/">
-  <xsd:include schemaLocation="../entities/validatorschema2.xsd"/>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\entities\validatorschema1.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:tns="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:tnr="http://adms-ap.semic.eu/validator/1.0/xsd/2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gitb="http://www.gitb.com/core/v1/">
+  <xsd:import namespace="http://adms-ap.semic.eu/validator/1.0/xsd/2" schemaLocation="../entities/validatorschema2.xsd"/>
   <xsd:import namespace="http://www.gitb.com/core/v1/" schemaLocation="gitb_core.xsd"/>
   <xsd:element name="DefinitionRequestType" type="tns:Void"/>
   <xsd:element name="DefinitionResponseType" type="tns:GetModuleDefinitionResponse"/>
@@ -78,11 +78,11 @@
   </xsd:complexType>
   <xsd:complexType name="ValidateRequest">
     <xsd:sequence>
-      <xsd:element name="rulesURI" type="tns:URIContent"/>
-      <xsd:element name="databaseURI" type="tns:URIContent"/>
-      <xsd:element name="dataURI" type="tns:URIContent"/>
-      <xsd:element name="sessionID" type="xsd:string" minOccurs="0"/>
-      <xsd:element name="outputFormat" type="tns:outputFormat" minOccurs="0"/>
+      <xsd:element name="rulesURI" type="tnr:URIContent" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="databaseURI" type="tnr:URIContent" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="dataURI" type="tnr:URIContent" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="sessionID" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="outputFormat" type="tnr:outputFormat" minOccurs="0" maxOccurs="1"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="ValidateResponse">
@@ -98,6 +98,30 @@
       <xsd:element name="faultString" type="xsd:string"/>
     </xsd:sequence>
   </xsd:complexType>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\entities\validatorschema2.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd/2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns="http://adms-ap.semic.eu/validator/1.0/xsd/2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gitb="http://www.gitb.com/core/v1/">
+  <xsd:import namespace="http://www.gitb.com/core/v1/" schemaLocation="gitb_core.xsd"/>
+  <!--Representation (serialisation) of a URI value-->
+  <xsd:complexType name="URIContent">
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:anyURI" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="embeddingMethod" type="gitb:ValueEmbeddingEnumeration" use="optional" default="URI"/>
+  </xsd:complexType>
+  <!--outputFormat-->
+  <xsd:complexType name="outputFormat">
+    <xsd:sequence>
+      <xsd:element name="value" type="outputFormatEnumeration" minOccurs="1" maxOccurs="1" default="XML"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--Enumeration for output format of the result-->
+  <xsd:simpleType name="outputFormatEnumeration">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="XML"/>
+      <xsd:enumeration value="JSON"/>
+      <xsd:enumeration value="TSV"/>
+      <xsd:enumeration value="CSV"/>
+    </xsd:restriction>
+  </xsd:simpleType>
 </xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\entities\gitb_core.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://www.gitb.com/core/v1/" elementFormDefault="qualified" version="1.0" xmlns="http://www.gitb.com/core/v1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <xsd:element name="module" type="TestModule"/>
   <!--General Metadata element to describe the metadata of artifacts-->
@@ -324,47 +348,23 @@
       <xsd:element name="description" type="xsd:string"/>
     </xsd:sequence>
   </xsd:complexType>
-</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Users\vandeloc\Documents\Documents\SEMIC\Eclipse%20workspace\APIval\src\main\resources\entities\validatorschema2.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gitb="http://www.gitb.com/core/v1/">
-  <xsd:import namespace="http://www.gitb.com/core/v1/" schemaLocation="gitb_core.xsd"/>
-  <!--Representation (serialisation) of a URI value-->
-  <xsd:complexType name="URIContent">
-    <xsd:sequence>
-      <xsd:element name="value" type="xsd:anyURI" minOccurs="1" maxOccurs="1"/>
-    </xsd:sequence>
-    <xsd:attribute name="embeddingMethod" type="gitb:ValueEmbeddingEnumeration" use="optional" default="URI"/>
-  </xsd:complexType>
-  <!--outputFormat-->
-  <xsd:complexType name="outputFormat">
-    <xsd:sequence>
-      <xsd:element name="value" type="outputFormatEnumeration" minOccurs="1" maxOccurs="1" default="XML"/>
-    </xsd:sequence>
-  </xsd:complexType>
-  <!--Enumeration for output format of the result-->
-  <xsd:simpleType name="outputFormatEnumeration">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="XML"/>
-      <xsd:enumeration value="JSON"/>
-      <xsd:enumeration value="TSV"/>
-      <xsd:enumeration value="CSV"/>
-    </xsd:restriction>
-  </xsd:simpleType>
-</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint></con:endpoints><con:operation id="57ca79d3-f215-484f-8f10-08eb50b47c0d" isOneWay="false" action="" name="getDefinition" bindingOperationName="getDefinition" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="46561ebe-99c1-4088-bee6-e66b06ba8761" name="getDefinition"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd">\r
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint></con:endpoints><con:operation id="5d8aa50f-731a-43fe-8e1a-95af670282c2" isOneWay="false" action="" name="getDefinition" bindingOperationName="getDefinition" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="656c34d0-cf93-4c6b-94aa-6928d90852de" name="getDefinition"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://52.50.205.146:8081/ADMS-AP_Validator_Service/services/validator/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd">\r
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <xsd:DefinitionRequestType/>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/getDefinitionRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="cccb9e07-35b8-4d5b-a0aa-56d9e00b270c" isOneWay="false" action="" name="validate" bindingOperationName="validate" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0190408a-e4bc-4026-9214-f2286ec0c0d9" name="validation with 6 results in XML"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/getDefinitionRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="642c657f-2b22-455d-9882-61240f82a93f" isOneWay="false" action="" name="validate" bindingOperationName="validate" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ddbae70a-9725-4336-8a21-95d94b3ef9da" name="Fault message"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://52.50.205.146:8081/ADMS-AP_Validator_Service/services/validator/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
    <soapenv:Header/>
    <soapenv:Body>
       <xsd:ValidateRequestType>
          <xsd:rulesURI embeddingMethod="URI">
-            <ns:value>http://localhost:8890/sparql.txt</ns:value>
+            <ns:value>?</ns:value>
          </xsd:rulesURI>
          <xsd:databaseURI embeddingMethod="URI">
-            <ns:value>http://localhost:8890/sparql</ns:value>
+            <ns:value>?</ns:value>
          </xsd:databaseURI>
          <xsd:dataURI embeddingMethod="URI">
-            <ns:value>http://localhost:8890/data.ttl</ns:value>
+            <ns:value>?</ns:value>
          </xsd:dataURI>
          <!--Optional:-->
          <xsd:sessionID>?</xsd:sessionID>
@@ -374,18 +374,18 @@
          </xsd:outputFormat>
       </xsd:ValidateRequestType>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/validateRequest"/><con:wsrmConfig version="1.2"/></con:call><con:call id="f28e85f9-e114-4368-978e-4ac41f900c4c" name="fault message"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator/ValidatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services/ValidatorService/IValidatorService/validateRequest"/><con:wsrmConfig version="1.2"/></con:call><con:call id="4dbd7efc-f665-4e0d-a12e-b68d451e2c23" name="validation with 6 results as XML"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://52.50.205.146:8081/ADMS-AP_Validator_Service/services/validator/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
    <soapenv:Header/>
    <soapenv:Body>
       <xsd:ValidateRequestType>
          <xsd:rulesURI embeddingMethod="URI">
-            <ns:value>?</ns:value>
+            <ns:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</ns:value>
          </xsd:rulesURI>
          <xsd:databaseURI embeddingMethod="URI">
-            <ns:value>?</ns:value>
+            <ns:value>http://cpsv-ap.semic.eu/sparql</ns:value>
          </xsd:databaseURI>
          <xsd:dataURI embeddingMethod="URI">
-            <ns:value>?</ns:value>
+            <ns:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</ns:value>
          </xsd:dataURI>
          <!--Optional:-->
          <xsd:sessionID>?</xsd:sessionID>
