@@ -4,6 +4,22 @@ This API allows to performs the validation of <a href="https://joinup.ec.europa.
 Validation is performed via a API operation which loads a file (Turtle, RDF/XML, N-triples, JSON-LD) as graph in a triplestore and it queries the triple store with a SPARQL query.
 The output of the validation can be in XML (HTML with xslt transformation), JSON, CSV or TSV.
 
+<h2>System requirements</h2>
+
+* JDK 8 (minimum)
+* Tomcat 7 (minimum)
+* Virtuoso 07.10.3207 (minimum)
+
+<h2>The Source Structure</h2>
+
+* /src/test/resources - SOAP UI Project to test the application.
+* /src/main/resources/config.properties - File containing the authentication to virtuoso.
+* /src/main/resources/services/ValidatorService.wsdl - The wsdl file containing the definition of the API.
+* /src/main/resources/entities - XML Schemas used by the wsdl file.
+* /src/main/java/service/ValidatorServiceImpl.java - The webservice business logic.
+* /target/apidocs - HTML documentation of the source code.
+* /target/ADMS-AP_Validator_Service.war - War file to be deployed on an application server.
+
 <h2>Rules</h2>
 
 The SPARQL query contains several rules which are based on those available here:
