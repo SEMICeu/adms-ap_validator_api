@@ -2,14 +2,13 @@
 <xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd"
 	xmlns="http://adms-ap.semic.eu/validator/1.0/xsd"
 	xmlns:tns="http://adms-ap.semic.eu/validator/1.0/xsd"
-	xmlns:tnr="http://adms-ap.semic.eu/validator/1.0/xsd/2"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:gitb="http://www.gitb.com/core/v1/"
 	elementFormDefault="qualified"
 	attributeFormDefault="unqualified"
 	version="1.0">
 	
-	<xsd:import namespace="http://adms-ap.semic.eu/validator/1.0/xsd/2" schemaLocation="../entities/validatorschema2.xsd" />
+	<xsd:include schemaLocation="../entities/validatorschema2.xsd" />
 	<xsd:import namespace="http://www.gitb.com/core/v1/" schemaLocation="gitb_core.xsd"/>
 	
 	<xsd:element name="DefinitionRequestType" type="tns:Void" />
@@ -30,11 +29,11 @@
 	
 	<xsd:complexType name="ValidateRequest">
         <xsd:sequence>
-            <xsd:element name="rulesURI" type="tnr:URIContent" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="databaseURI" type="tnr:URIContent" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="dataURI" type="tnr:URIContent" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="sessionID" type="xsd:string"  minOccurs="0" maxOccurs="1" />
-            <xsd:element name="outputFormat" type="tnr:outputFormat" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="rulesURI" type="tns:URIContent" />
+            <xsd:element name="databaseURI" type="tns:URIContent" />
+            <xsd:element name="dataURI" type="tns:URIContent" />
+            <xsd:element name="sessionID" type="xsd:string"  minOccurs="0" />
+            <xsd:element name="outputFormat" type="tns:outputFormat" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
  	

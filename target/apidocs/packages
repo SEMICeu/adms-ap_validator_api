@@ -1,5 +1,4 @@
 service
 com.gitb.core.v1
 eu.semic.adms_ap.validator._1_0.xsd
-eu.semic.adms_ap.validator._1_0.xsd._2
 services.validatorservice

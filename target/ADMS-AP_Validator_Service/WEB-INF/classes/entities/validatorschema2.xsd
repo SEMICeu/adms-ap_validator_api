@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd/2"
-	xmlns="http://adms-ap.semic.eu/validator/1.0/xsd/2"
+<xsd:schema targetNamespace="http://adms-ap.semic.eu/validator/1.0/xsd"
+	xmlns="http://adms-ap.semic.eu/validator/1.0/xsd"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:gitb="http://www.gitb.com/core/v1/"
 	elementFormDefault="qualified"

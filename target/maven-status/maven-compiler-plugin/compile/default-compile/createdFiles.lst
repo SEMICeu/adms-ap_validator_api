@@ -1,4 +1,3 @@
-eu\semic\adms_ap\validator\_1_0\xsd\_2\OutputFormat.class
 com\gitb\core\v1\Actors.class
 eu\semic\adms_ap\validator\_1_0\xsd\ValidateRequest.class
 eu\semic\adms_ap\validator\_1_0\xsd\package-info.class
@@ -9,10 +8,12 @@ com\gitb\core\v1\ErrorCode.class
 com\gitb\core\v1\ConfigurationType.class
 com\gitb\core\v1\ValidationModule.class
 eu\semic\adms_ap\validator\_1_0\xsd\ObjectFactory.class
+eu\semic\adms_ap\validator\_1_0\xsd\OutputFormatEnumeration.class
 com\gitb\core\v1\Actor.class
 com\gitb\core\v1\Roles.class
 eu\semic\adms_ap\validator\_1_0\xsd\ValidateResponse.class
 com\gitb\core\v1\ErrorInfo.class
+eu\semic\adms_ap\validator\_1_0\xsd\URIContent.class
 com\gitb\core\v1\StepStatus.class
 com\gitb\core\v1\AnyContent.class
 com\gitb\core\v1\ConfigurationParameters.class
@@ -21,9 +22,9 @@ com\gitb\core\v1\ValueEmbeddingEnumeration.class
 eu\semic\adms_ap\validator\_1_0\xsd\Void.class
 com\gitb\core\v1\package-info.class
 com\gitb\core\v1\Parameter.class
-eu\semic\adms_ap\validator\_1_0\xsd\_2\ObjectFactory.class
 com\gitb\core\v1\ActorConfiguration.class
 com\gitb\core\v1\Endpoint.class
+eu\semic\adms_ap\validator\_1_0\xsd\OutputFormat.class
 service\validateResult.class
 com\gitb\core\v1\UsageEnumeration.class
 services\validatorservice\ADMSError.class
@@ -33,11 +34,8 @@ com\gitb\core\v1\Metadata.class
 eu\semic\adms_ap\validator\_1_0\xsd\ADMSExceptionError.class
 service\ValidatorServiceImpl.class
 com\gitb\core\v1\TypedParameter.class
-eu\semic\adms_ap\validator\_1_0\xsd\_2\OutputFormatEnumeration.class
 com\gitb\core\v1\TestCaseType.class
 com\gitb\core\v1\ObjectFactory.class
 services\validatorservice\IValidatorService.class
-eu\semic\adms_ap\validator\_1_0\xsd\_2\package-info.class
-eu\semic\adms_ap\validator\_1_0\xsd\_2\URIContent.class
 com\gitb\core\v1\MessagingModule.class
 com\gitb\core\v1\TestRole.class

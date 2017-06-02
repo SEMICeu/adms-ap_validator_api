@@ -78,6 +78,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link OutputFormat }
+     * 
+     */
+    public OutputFormat createOutputFormat() {
+        return new OutputFormat();
+    }
+
+    /**
+     * Create an instance of {@link URIContent }
+     * 
+     */
+    public URIContent createURIContent() {
+        return new URIContent();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Void }{@code >}}
      * 
      */
