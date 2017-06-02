@@ -24,6 +24,7 @@ com\gitb\core\v1\Parameter.class
 eu\semic\adms_ap\validator\_1_0\xsd\_2\ObjectFactory.class
 com\gitb\core\v1\ActorConfiguration.class
 com\gitb\core\v1\Endpoint.class
+service\validateResult.class
 com\gitb\core\v1\UsageEnumeration.class
 services\validatorservice\ADMSError.class
 com\gitb\core\v1\TestModule.class

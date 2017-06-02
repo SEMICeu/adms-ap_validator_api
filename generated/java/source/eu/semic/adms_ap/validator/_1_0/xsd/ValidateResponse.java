@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="sessionID" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ResultsCount" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="report" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -30,12 +31,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidateResponse", propOrder = {
     "sessionID",
+    "resultsCount",
     "report"
 })
 public class ValidateResponse {
 
     @XmlElement(required = true)
     protected String sessionID;
+    @XmlElement(name = "ResultsCount")
+    protected int resultsCount;
     @XmlElement(required = true)
     protected String report;
 
@@ -61,6 +65,22 @@ public class ValidateResponse {
      */
     public void setSessionID(String value) {
         this.sessionID = value;
+    }
+
+    /**
+     * Gets the value of the resultsCount property.
+     * 
+     */
+    public int getResultsCount() {
+        return resultsCount;
+    }
+
+    /**
+     * Sets the value of the resultsCount property.
+     * 
+     */
+    public void setResultsCount(int value) {
+        this.resultsCount = value;
     }
 
     /**

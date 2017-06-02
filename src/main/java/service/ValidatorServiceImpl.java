@@ -30,6 +30,7 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.springframework.util.StringUtils;
 
 import com.gitb.core.v1.ConfigurationType;
 import com.gitb.core.v1.Metadata;
@@ -112,7 +113,8 @@ public class ValidatorServiceImpl implements IValidatorService {
      * @param parameters.getDataURI() The URI of the data to be downloaded and validated.
      * @param parameters.getRulesURI() The URI of the rules to be used for the validation.
      * @param parameters.getDatabaseURI() The URI of the database which to query.
-     * @throws MissingParameter 
+     * @param parameters.getOutputFormat() The format in which the output should be provided.
+     * @throws ADMSError 
      */
 	@Override
 	public ValidateResponse validate(@WebParam(name = "ValidateRequest", targetNamespace = "http://www.gitb.com/vs/v1/",
@@ -153,10 +155,11 @@ public class ValidatorServiceImpl implements IValidatorService {
 			// Upload the file to the database using a HTTP POST request.
 			httpPOST(file, parameters.getDatabaseURI().getValue(), parameters.getSessionID(), getUsername(), getPassword());
 			// Perform the SPARQL query against the file and return the result as a String.
-			String result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
+			validateResult result = validateFile(parameters.getDatabaseURI().getValue(), rules, parameters.getOutputFormat().getValue().toString());		
 			
 			// Fill in the result in the response.
-			response.setReport(result);
+			response.setReport(result.getResult());
+			response.setResultsCount(result.getResultCount());
 			response.setSessionID(parameters.getSessionID().toString());
 			
 		}
@@ -208,6 +211,7 @@ public class ValidatorServiceImpl implements IValidatorService {
 	/**
      * Fill in the Graph URI in the rules file.
      * @param SessionID The session ID to be filled in.
+     * @param Rules The SPARQL query in which the session ID should be filled in.
      * @throws IOException 
      */
     private String fillInSessionID(String SessionID, String rules) {
@@ -220,7 +224,10 @@ public class ValidatorServiceImpl implements IValidatorService {
     /**
      * Upload the file to the server via a HTTP POST request
      * @param file The file as a string.
+     * @param database The server to which the file should be uploaded.
      * @param SessionID The session ID. This will also determine the graph URI.
+     * @param username The user name of the server.
+     * @param password The password of the server.
      * @throws ADMSError 
      */
 	private static void httpPOST(String file, String database, String SessionID, String username, String password)
@@ -292,16 +299,26 @@ public class ValidatorServiceImpl implements IValidatorService {
 	
 	/**
      * Perform SPARQL query on the file to validate it.
+     * @param databaseURI The server against which to perform the query.
+     * @param rules The SPARQL query.
+     * @param outputFormat The format in which the output should be provided.
 	 * @throws ADMSError 
      */
-    private String validateFile(String databaseURI, String rules, String outputFormat) throws ADMSError {
-    	
+    private validateResult validateFile(String databaseURI, String rules, String outputFormat) throws ADMSError {
+    	validateResult valResult;
     	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
     	ResultSet results = qe.execSelect();
+    	
+//    	int resultsCount = 0;
+//    	while (results.hasNext()) {
+//    		resultsCount++;
+//    		QuerySolution qs = results.next();
+//    	}   	 
+    	
         String result = new String();
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        try {
+		try {
         	if ( outputFormat == "XML" ) {
         		// Output the results as XML
         		ResultSetFormatter.outputAsXML(stream, results);
@@ -316,6 +333,8 @@ public class ValidatorServiceImpl implements IValidatorService {
         		ResultSetFormatter.outputAsCSV(stream, results);
         	}
         	result = stream.toString("UTF-8");
+        	int occurance = StringUtils.countOccurrencesOf(result, "<result>");
+        	valResult = new validateResult(occurance, result);
         	
         } catch (Exception e) {
         	e.printStackTrace();
@@ -327,10 +346,14 @@ public class ValidatorServiceImpl implements IValidatorService {
         } finally {
             qe.close();
         }
-        return result;
+		return valResult;
         
 	}
 
+	/**
+     * Load the configuration settings from the config.properties file.
+	 * @throws ADMSError 
+     */
     private void getConfigurationValues() throws ADMSError {
 	    InputStream inputStream = null;
 		

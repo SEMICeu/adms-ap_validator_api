@@ -41,6 +41,7 @@
 	<xsd:complexType name="ValidateResponse">
         <xsd:sequence>
         	<xsd:element name="sessionID" type="xsd:string" />
+        	<xsd:element name="ResultsCount" type="xsd:int" />
             <xsd:element name="report" type="xsd:string" />
         </xsd:sequence>
     </xsd:complexType>
