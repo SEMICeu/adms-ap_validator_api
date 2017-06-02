@@ -41,6 +41,8 @@ As parameters, please provide:
     </ol>
 
 Example:
+
+```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
    <soapenv:Header/>
    <soapenv:Body>
@@ -63,6 +65,7 @@ Example:
       </xsd:ValidateRequestType>
    </soapenv:Body>
 </soapenv:Envelope>
+```
 
 <h3>Output</h3>
 
