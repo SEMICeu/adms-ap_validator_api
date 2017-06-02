@@ -308,13 +308,7 @@ public class ValidatorServiceImpl implements IValidatorService {
     	validateResult valResult;
     	// Execute SPARQL query
         QueryExecution qe = QueryExecutionFactory.sparqlService(databaseURI, rules);
-    	ResultSet results = qe.execSelect();
-    	
-//    	int resultsCount = 0;
-//    	while (results.hasNext()) {
-//    		resultsCount++;
-//    		QuerySolution qs = results.next();
-//    	}   	 
+    	ResultSet results = qe.execSelect(); 	 
     	
         String result = new String();
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
