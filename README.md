@@ -70,6 +70,7 @@ The output of the validate operation is a string containing the XML, JSON, CSV o
 Next to this, the output also contains your sessionID and the amount of results.
 
 Example:
+
 ```xml
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Body>
