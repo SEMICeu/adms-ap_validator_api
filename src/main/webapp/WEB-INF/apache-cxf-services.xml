@@ -8,8 +8,8 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<jaxws:endpoint id="validatorservice"
-		implementor="service.ValidatorServiceImpl"
+	<jaxws:endpoint id="validationservice"
+		implementor="service.ValidationServiceImpl"
 		address="/validator">
 	</jaxws:endpoint>
 </beans>

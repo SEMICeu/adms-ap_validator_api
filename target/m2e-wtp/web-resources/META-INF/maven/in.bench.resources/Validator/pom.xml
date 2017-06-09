@@ -153,8 +153,7 @@
 								<sourceRoot>${basedir}/generated/java/source</sourceRoot>
 								<wsdlOptions>
 									<wsdlOption>
-										<wsdl>${basedir}/src/main/resources/services/ValidatorService.wsdl</wsdl>
-										
+										<wsdl>${basedir}/src/main/resources/gitb_vs.wsdl</wsdl>
 									</wsdlOption>
 								</wsdlOptions>
 								<defaultOptions>
