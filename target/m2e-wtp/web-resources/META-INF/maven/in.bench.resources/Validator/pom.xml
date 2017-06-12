@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>in.bench.resources</groupId>
 	<artifactId>Validator</artifactId>
-	<version>0.0.2</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>Validator</name>
 
@@ -28,6 +28,10 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>lib</id>
+			<url>file://C:/Users/vandeloc/.m2/repository/</url>
+		</repository> 
 	</repositories>
 
 	<pluginRepositories>
@@ -90,6 +94,18 @@
 		  <artifactId>guava</artifactId>
 		  <version>21.0</version>
 		</dependency>
+		    
+		<dependency>
+			  <groupId>org.apache.commons</groupId>
+			  <artifactId>commons-csv</artifactId>
+			  <version>1.0</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.gitb</groupId>
+            <artifactId>gitb-types</artifactId>
+            <version>1.0.1</version>
+		</dependency>	
 
 	</dependencies>
 
@@ -142,7 +158,7 @@
 					</executions>
 				</plugin>
 	
-				<!-- plugin 4- apache cxf codegen wsdl2java goal -->
+				<!-- plugin 4- apache cxf codegen wsdl2java goal 
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-codegen-plugin</artifactId>
@@ -166,7 +182,7 @@
 							</goals>
 						</execution>
 					</executions>
-				</plugin>
+				</plugin> -->
 				
 				
 				<plugin>
