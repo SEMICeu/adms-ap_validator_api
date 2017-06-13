@@ -46,13 +46,13 @@ This structured definition includes:
  Example:
  
  ```xml
- <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Body>
-      <DefinitionResponseType xmlns="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns2="http://www.gitb.com/core/v1/">
+      <ns4:GetModuleDefinitionResponse xmlns:ns2="http://www.gitb.com/core/v1/" xmlns:ns3="http://www.gitb.com/tr/v1/" xmlns:ns4="http://www.gitb.com/vs/v1/">
          <module operation="V" id="ValidationService">
             <ns2:metadata>
                <ns2:name>ValidationService</ns2:name>
-               <ns2:version>0.0.2</ns2:version>
+               <ns2:version>1.0.0</ns2:version>
             </ns2:metadata>
             <ns2:inputs>
                <ns2:param type="URI" name="URL rules" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate."/>
@@ -62,7 +62,7 @@ This structured definition includes:
                <ns2:param type="String" name="outputFormat" use="O" kind="SIMPLE" desc="The format in which you want the output to be provided. Possible values are: XML, JSON, TSV and CSV. If not provided, the ouput will be in XML format."/>
             </ns2:inputs>
          </module>
-      </DefinitionResponseType>
+      </ns4:GetModuleDefinitionResponse>
    </soap:Body>
 </soap:Envelope>
  ```
@@ -89,26 +89,21 @@ Optionally, the following parameters may be provided:
 Example:
 
 ```xml
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns="http://adms-ap.semic.eu/validator/1.0/xsd/2">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://www.gitb.com/vs/v1/" xmlns:v11="http://www.gitb.com/core/v1/">
    <soapenv:Header/>
    <soapenv:Body>
-      <xsd:ValidateRequestType>
-         <xsd:rulesURI embeddingMethod="URI">
-            <ns:value>http://localhost:8890/sparql.txt</ns:value>
-         </xsd:rulesURI>
-         <xsd:databaseURI embeddingMethod="URI">
-            <ns:value>http://localhost:8890/sparql</ns:value>
-         </xsd:databaseURI>
-         <xsd:dataURI embeddingMethod="URI">
-            <ns:value>http://localhost:8890/data.ttl</ns:value>
-         </xsd:dataURI>
-         <!--Optional:-->
-         <xsd:sessionID>?</xsd:sessionID>
-         <!--Optional:-->
-         <xsd:outputFormat>
-            <ns:value>XML</ns:value>
-         </xsd:outputFormat>
-      </xsd:ValidateRequestType>
+      <v1:ValidateRequest>
+         <sessionId>12345</sessionId>
+         <input name="rulesURI" embeddingMethod="URI" type="?" encoding="?">
+            <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
+         </input>
+         <input name="databaseURI" embeddingMethod="URI" type="?" encoding="?">
+            <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
+         </input>
+         <input name="dataURI" embeddingMethod="URI" type="?" encoding="?">
+            <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
+         </input>
+      </v1:ValidateRequest>
    </soapenv:Body>
 </soapenv:Envelope>
 ```
@@ -127,48 +122,87 @@ Example:
 ```xml
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Body>
-      <ns2:ValidateResponseType xmlns="http://adms-ap.semic.eu/validator/1.0/xsd/2" xmlns:ns2="http://adms-ap.semic.eu/validator/1.0/xsd" xmlns:ns3="http://www.gitb.com/core/v1/">
-         <ns2:sessionID>1496402407312</ns2:sessionID>
-         <ns2:ResultsCount>1</ns2:ResultsCount>
-         <ns2:report><![CDATA[<?xml version="1.0"?>
-<sparql xmlns="http://www.w3.org/2005/sparql-results#">
-  <head>
-    <variable name="Class_Name"/>
-    <variable name="Rule_ID"/>
-    <variable name="Rule_Severity"/>
-    <variable name="Rule_Description"/>
-    <variable name="Message"/>
-    <variable name="Subject"/>
-    <variable name="Predicate"/>
-    <variable name="Object"/>
-  </head>
-  <results>
-    <result>
-      <binding name="Class_Name">
-        <literal>foaf:Agent</literal>
-      </binding>
-      <binding name="Rule_ID">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">95</literal>
-      </binding>
-      <binding name="Rule_Severity">
-        <literal>error</literal>
-      </binding>
-      <binding name="Rule_Description">
-        <literal>foaf:name is a required property for foaf:Agent.</literal>
-      </binding>
-      <binding name="Message">
-        <literal>The foaf:Agent http://www.oepm.es/cs/OEPMSite/contenidos/Folletos/08-la-patente-europea.html does not have a foaf:name property.</literal>
-      </binding>
-      <binding name="Subject">
-        <uri>http://www.oepm.es/cs/OEPMSite/contenidos/Folletos/08-la-patente-europea.html</uri>
-      </binding>
-      <binding name="Predicate">
-        <uri>http://xmlns.com/foaf/0.1/name</uri>
-      </binding>
-    </result>
-  </results>
-</sparql>]]></ns2:report>
-      </ns2:ValidateResponseType>
+      <ns4:ValidationResponse xmlns:ns2="http://www.gitb.com/core/v1/" xmlns:ns3="http://www.gitb.com/tr/v1/" xmlns:ns4="http://www.gitb.com/vs/v1/">
+         <report>
+            <ns3:date>2017-06-13T11:08:32.105+02:00</ns3:date>
+            <ns3:result>FAILURE</ns3:result>
+            <ns3:counters>
+               <ns3:nrOfErrors>1</ns3:nrOfErrors>
+               <ns3:nrOfWarnings>0</ns3:nrOfWarnings>
+            </ns3:counters>
+            <ns3:context>
+               <ns2:value><![CDATA[@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix ns0: <c> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix v: <http://rdf.data-vocabulary.org/#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+
+<http://joinup.ec.europa.eu/unique_identifier>
+  a dcat:Dataset ;
+  dc:title "EIRA_v0.9.0_beta"@en ;
+  dc:description """This Archi file provides the ArchiMate model of the European Interoperability Reference Architecture (EIRA). The EIRA has been developed in the context of Action 2.1 of the Interoperability Solutions for European Public Administrations (ISA) Programme. The EIRA is a reference architecture focused on the interoperability of digital public services. It is composed of the most important architecture building blocks needed to promote cross-border and cross-sector interactions between public administrations. It is based on the Service Oriented Architecture style and uses ArchiMate as a modelling notation. The EIRA implements the European Interoperability Framework (EIF) . 
+
+The latest release of the EIRA is available on Joinup: https://joinup.ec.europa.eu/asset/eia/description"""@en ;
+  ns0:omposedOf "" .
+
+<http://joinup.ec.europa.eu/ABB165>
+  a dcat:Dataset ;
+  dc:type <http://data.europa.eu/eira/LegislationCatalogue> ;
+  dc:title "Legislation Catalogue Solution BB"@en ;
+  dc:description "A Legislation Catalogue is a set of legal documents."@en ;
+  dcat:keyword "legislation" ;
+  dcat:landingPage <https://joinup.ec.europa.eu/example/LegislationCatalogue> ;
+  dc:modified "2015-12-15" ;
+  dcat:distribution <https://joinup.ec.europa.eu/distribution>, <https://joinup.ec.europa.eu/distribution2> .
+
+<http://data.europa.eu/eli/dir/2006/123/oj>
+  a dcat:Dataset ;
+  dc:type <http://data.europa.eu/eira/PublicPolicy>, <http://data.europa.eu/eira/BindingInstrument> ;
+  dc:title "Services Directory"@en ;
+  dc:description "The objective of the Services Directive is to realise the full potential of services markets in Europe by removing legal and administrative barriers to trade. The simplification measures introduced by the Directive have increased transparency and made it easier for businesses and consumers to provide or use services in the Single Market. The Directive was adopted in 2006 and implemented by all EU countries in 2009. The European Commission is now working with EU countries to further improve the Single Market for services."@en ;
+  dcat:contactPoint <http://data.europa.eu/contact/mrx> ;
+  dc:publisher <http://data.europa.eu/publisher/EP> ;
+  dcat:keyword "public services", "european union" ;
+  dcat:landingPage <http://ec.europa.eu/growth/single-market/services/services-directive/index_en.htm> ;
+  dc:relation <http://data.europa.eu/URI/CPSVAP> .
+
+<http://data.europa.eu/publisher/EP>
+  a foaf:Agent ;
+  foaf:name "European Parliament" .
+
+<http://data.europa.eu/contact/mrx>
+  a v:Kind ;
+  vcard:fn "Mr X" ;
+  vcard:hasEmail "mrx@host.com" .
+
+<http://data.europa.eu/URI/CPSVAP>
+  a dcat:Dataset ;
+  dc:type <http://data.europa.eu/eira/CoreDataModel> ;
+  dc:title "CPSV-AP"@en ;
+  dc:description "The CPSV-AP has been defined as an Application Profile of the ISA² Core Public Service Vocabulary (CPSV). An Application Profile is a specification that re-uses terms from one or more base standards, adding more specificity by identifying mandatory, recommended and optional elements to be used for a particular application, as well as recommendations for controlled vocabularies to be used."@en ;
+  dcat:contactPoint <http://data.europa.eu/contact/mrx> ;
+  dc:publisher <http://data.europa.eu/publisher/ISA> ;
+  dcat:keyword "services directory", "businesses" ;
+  dcat:landingPage <https://joinup.ec.europa.eu/asset/cpsv-ap/asset_release/core-public-service-vocabulary-application-profile-v100> ;
+  dcat:distribution <https://joinup.ec.europa.eu/system/files/project/d02.02_-_definition_and_development_of_a_data_model_for_description_of_the_services_related_to_kbe-v1.05.docx> .
+
+<http://data.europa.eu/publisher/ISA>
+  a foaf:Agent ;
+  foaf:name "ISA" .]]></ns2:value>
+            </ns3:context>
+            <ns3:reports>
+               <ns3:error xsi:type="ns3:BAR" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <ns3:assertionID>1</ns3:assertionID>
+                  <ns3:description>The dcat:Dataset http://joinup.ec.europa.eu/unique_identifier does not have a dcat:contactPoint property.</ns3:description>
+                  <ns3:location>http://joinup.ec.europa.eu/unique_identifier</ns3:location>
+                  <ns3:test>dcat:contactPoint is a required property for dcat:Dataset.</ns3:test>
+                  <ns3:type>http://www.w3.org/ns/dcat#contactPoint</ns3:type>
+                  <ns3:value>NA</ns3:value>
+               </ns3:error>
+            </ns3:reports>
+         </report>
+      </ns4:ValidationResponse>
    </soap:Body>
 </soap:Envelope>
 ```

@@ -60,10 +60,10 @@ import com.gitb.vs.ValidationService;
 import com.gitb.vs.Void;
 
 @WebService(serviceName="ValidationService",
-endpointInterface="com.gitb.vs.ValidationService",
-targetNamespace="http://www.gitb.com/vs/v1/",
-portName="ValidatorServicePort",
-name="ValidationServiceImpl")
+			endpointInterface="com.gitb.vs.ValidationService",
+			targetNamespace="http://www.gitb.com/vs/v1/",
+			portName="ValidatorServicePort",
+			name="ValidationServiceImpl")
 public class ValidationServiceImpl implements ValidationService {
 	String username;
 	String password;
@@ -183,6 +183,7 @@ public class ValidationServiceImpl implements ValidationService {
 			// Fill in the tar in the response.
 			response.setReport(tar);
 		}
+		
 		return response;
 		
 	}
@@ -250,7 +251,7 @@ public class ValidationServiceImpl implements ValidationService {
 			CredentialsProvider credsProvider = new BasicCredentialsProvider();
 			credsProvider.setCredentials(
                   new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, "SPARQL"),
-                  new UsernamePasswordCredentials("dba", "dba"));
+                  new UsernamePasswordCredentials(username, password));
 			
 			// Create HTTP client
 			CloseableHttpClient client = HttpClients.custom()
@@ -272,7 +273,7 @@ public class ValidationServiceImpl implements ValidationService {
 			if ( database.substring(database.length() - 1).equalsIgnoreCase("/")) {
 				database = database.substring(0, database.length() - 1);
 			}
-			url = database + "-graph-crud-auth?graph-uri=http://" + SessionID;
+			url = database + "-graph-crud?graph-uri=http://" + SessionID;
 			HttpPost request = new HttpPost(url);
 //			request.setConfig(config);
 			
@@ -316,8 +317,8 @@ public class ValidationServiceImpl implements ValidationService {
     	// Create TestAssertionReport, set the Date and context
     	// Create elements in test report and add them to the report
     	TAR tar = createTAR(file, items);
-    	
     	return tar;  
+    	
 	}
     
 	/**
@@ -344,7 +345,8 @@ public class ValidationServiceImpl implements ValidationService {
         } finally {
             qe.close();
         }
-		return result; 		
+		return result; 	
+		
 	}
 	
 	/**
@@ -379,31 +381,8 @@ public class ValidationServiceImpl implements ValidationService {
     		items.add(splittedLine);
     	}
     	return items;
+    	
 	}
-	
-//	/**
-//     * Create the TestAssertionReport. Set the context and the date.
-//     * @param file The context of the report.
-//	 * @throws ADMSError 
-//     */
-//	private TAR createTAR(String file) throws ADMSError {
-//		TAR tar = new TAR();
-//		tar.setReports(new TestAssertionGroupReportsType());
-//		AnyContent fileContext = new AnyContent();
-//		fileContext.setValue(file);
-//		tar.setContext(fileContext);
-//		try {
-//            tar.setDate(getXMLGregorianCalendarDateTime());
-//        } catch (DatatypeConfigurationException e) {
-//        	e.printStackTrace();
-//			// Throw Exception using SOAP Fault Message 
-//			ADMSExceptionError error = new ADMSExceptionError();
-//			error.setFaultCode("Receiver");
-//			error.setFaultString(e.toString());
-//			throw new ADMSError("Creation of TestAssertionReport did not succeed", error);
-//        }
-//		return tar;
-//	}
 	
 	/**
      * Get the current date and time.
@@ -411,6 +390,7 @@ public class ValidationServiceImpl implements ValidationService {
 	private XMLGregorianCalendar getXMLGregorianCalendarDateTime() throws DatatypeConfigurationException {
         GregorianCalendar calendar = new GregorianCalendar();
         return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+        
     }
 	
 	/**
@@ -485,6 +465,7 @@ public class ValidationServiceImpl implements ValidationService {
 	    	tar.setCounters(counters);
         }
     	return tar;
+    	
 	}
 
 	/**
@@ -520,6 +501,7 @@ public class ValidationServiceImpl implements ValidationService {
 			}
 		}
 		return;
+		
 	}
     
 	private void setUsername(String username) {
@@ -537,7 +519,5 @@ public class ValidationServiceImpl implements ValidationService {
 	private String getPassword() {
 		return this.password;
 	}
-
-
-    
+ 
 }
