@@ -417,7 +417,6 @@ public class ValidationServiceImpl implements ValidationService {
     	}
     	
     	TAR tar = new TAR();
-        tar.setResult(TestResultType.FAILURE);
 		tar.setReports(new TestAssertionGroupReportsType());
 		AnyContent fileContext = new AnyContent();
 		fileContext.setValue(file);
@@ -460,6 +459,13 @@ public class ValidationServiceImpl implements ValidationService {
 	    	counters.setNrOfErrors(BigInteger.valueOf(errorCount));
 	    	counters.setNrOfWarnings(BigInteger.valueOf(warningCount));
 	    	tar.setCounters(counters);
+	    	
+	    	// Set result type to failure or success
+	    	if ( errorCount > 0 || warningCount > 0 ) {
+	    		tar.setResult(TestResultType.FAILURE);
+	    	} else {
+	    		tar.setResult(TestResultType.SUCCESS);
+	    	}
         }
     	return tar;
     	
