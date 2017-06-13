@@ -87,13 +87,13 @@ public class ValidationServiceImpl implements ValidationService {
         //Set inputs
         response.getModule().setInputs(new TypedParameters());
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"URL rules", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate."));
+        		"rulesURI", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"URL database", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query."));
+        		"databaseURI", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"URL data", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
+        		"dataURI", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"SessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
+        		"SessionId", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
         return response;
         
 	}
