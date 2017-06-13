@@ -2,10 +2,10 @@
 
 This API allows to perform the validation of <a href="https://joinup.ec.europa.eu/asset/dcat_application_profile/description">ADMS-AP</a> RDF files.
 Validation is performed via an API operation which loads a file (Turtle, RDF/XML, N-triples, JSON-LD) as graph in a triple store and it queries the triple store with a SPARQL query.
-The output of the validation can be in XML (HTML with XSLT transformation), JSON, CSV or TSV.
 
 <h2>System requirements</h2>
 
+* Eclipse JEE Neon with CXF 2.x 
 * JDK 8 (minimum)
 * Tomcat 7 (minimum)
 * Virtuoso 07.10.3207 (minimum)
@@ -23,7 +23,7 @@ The output of the validation can be in XML (HTML with XSLT transformation), JSON
 <h2>Rules</h2>
 
 The SPARQL query contains several rules which are based on those available here:
-<a href="https://joinup.ec.europa.eu/asset/dcat_application_profile/asset_release/dcat-application-profile-data-portals-europe-final">DCAT-AP Final 1.1</a>
+<a href="https://joinup.ec.europa.eu/asset/adms/home">ADMS-AP.</a>
 
 <h2>User guide - getModuleDefinition</h2>
 
