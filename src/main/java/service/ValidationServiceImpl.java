@@ -94,9 +94,6 @@ public class ValidationServiceImpl implements ValidationService {
         		"URL data", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"SessionID", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
-        response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"outputFormat", "String", UsageEnumeration.O, ConfigurationType.SIMPLE, "The format in which you want the output to be provided. Possible values are: "
-        				+ "XML, JSON, TSV and CSV. If not provided, the ouput will be in XML format."));
         return response;
         
 	}
