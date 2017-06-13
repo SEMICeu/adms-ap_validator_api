@@ -1,5 +1,377 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://www.gitb.com/vs/v1/" xmlns:v11="http://www.gitb.com/core/v1/">
+<con:soapui-project id="9706df2a-eebf-47e3-a86a-d55b745aca74" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="89bae3b6-1d6c-4b20-a2be-bd86a92f5fe3" wsaVersion="NONE" name="ValidationServiceSoapBinding" type="wsdl" bindingName="{http://www.gitb.com/vs/v1/}ValidationServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl"><con:part><con:url>http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ValidationService" targetNamespace="http://www.gitb.com/vs/v1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.gitb.com/vs/v1/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://www.gitb.com/vs/v1/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.gitb.com/tr/v1/" xmlns:ns1="http://www.gitb.com/core/v1/">
+      <xs:import namespace="http://www.gitb.com/core/v1/"/>
+      <xs:import namespace="http://www.gitb.com/tr/v1/"/>
+      <xs:element name="GetModuleDefinitionRequest" type="tns:Void"/>
+      <xs:element name="GetModuleDefinitionResponse" type="tns:GetModuleDefinitionResponse"/>
+      <xs:element name="ValidateRequest" type="tns:ValidateRequest"/>
+      <xs:element name="ValidationResponse" type="tns:ValidationResponse"/>
+      <xs:complexType name="ValidateRequest">
+        <xs:sequence>
+          <xs:element name="sessionId" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="config" nillable="true" type="ns1:Configuration"/>
+          <xs:element maxOccurs="unbounded" name="input" type="ns1:AnyContent"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValidationResponse">
+        <xs:sequence>
+          <xs:element name="report" type="ns2:TAR"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Void">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="GetModuleDefinitionResponse">
+        <xs:sequence>
+          <xs:element name="module" type="ns1:ValidationModule"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.gitb.com/tr/v1/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.gitb.com/tr/v1/" xmlns:ns1="http://www.gitb.com/core/v1/">
+      <xs:import namespace="http://www.gitb.com/core/v1/"/>
+      <xs:element name="TestCaseReport" type="tns:TestCaseReportType"/>
+      <xs:element name="TestStepReport" type="tns:TestStepReportType"/>
+      <xs:complexType name="TAR">
+        <xs:complexContent>
+          <xs:extension base="tns:TestStepReportType">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="overview" type="tns:ValidationOverview"/>
+              <xs:element minOccurs="0" name="counters" type="tns:ValidationCounters"/>
+              <xs:element minOccurs="0" name="context" type="ns1:AnyContent"/>
+              <xs:element minOccurs="0" name="reports" type="tns:TestAssertionGroupReportsType"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType abstract="true" name="TestStepReportType">
+        <xs:sequence>
+          <xs:element name="date" type="xs:dateTime"/>
+          <xs:element name="result" type="tns:TestResultType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="ValidationOverview">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="profileID" type="xs:string"/>
+          <xs:element minOccurs="0" name="customizationID" type="xs:string"/>
+          <xs:element minOccurs="0" name="transactionID" type="xs:string"/>
+          <xs:element minOccurs="0" name="validationServiceName" type="xs:string"/>
+          <xs:element minOccurs="0" name="validationServiceVersion" type="xs:string"/>
+          <xs:element minOccurs="0" name="note" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValidationCounters">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="nrOfAssertions" type="xs:integer"/>
+          <xs:element minOccurs="0" name="nrOfErrors" type="xs:integer"/>
+          <xs:element minOccurs="0" name="nrOfWarnings" type="xs:integer"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TestAssertionGroupReportsType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="reports" nillable="true" type="tns:TAR"/>
+          <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="warning" type="tns:TestAssertionReportType"/>
+            <xs:element name="info" type="tns:TestAssertionReportType"/>
+            <xs:element name="error" type="tns:TestAssertionReportType"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BAR">
+        <xs:complexContent>
+          <xs:extension base="tns:TestAssertionReportType">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="assertionID" type="xs:string"/>
+              <xs:element name="description" type="xs:string"/>
+              <xs:element minOccurs="0" name="location" type="xs:string"/>
+              <xs:element minOccurs="0" name="test" type="xs:string"/>
+              <xs:element minOccurs="0" name="type" type="xs:string"/>
+              <xs:element minOccurs="0" name="value" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType abstract="true" name="TestAssertionReportType">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="TestCaseReportType">
+        <xs:complexContent>
+          <xs:extension base="tns:TestStepReportType">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="counters" type="tns:ValidationCounters"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="reports" nillable="true" type="tns:TestStepReportType"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="DR">
+        <xs:complexContent>
+          <xs:extension base="tns:TestStepReportType">
+            <xs:sequence>
+              <xs:element name="decision" type="xs:boolean"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="SR">
+        <xs:complexContent>
+          <xs:extension base="tns:TestStepReportType">
+            <xs:sequence/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:simpleType name="TestResultType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCESS"/>
+          <xs:enumeration value="FAILURE"/>
+          <xs:enumeration value="UNDEFINED"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.gitb.com/core/v1/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.gitb.com/core/v1/">
+      <xs:element name="module" type="tns:TestModule"/>
+      <xs:complexType name="Configuration">
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute name="name" type="xs:string" use="required"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:complexType name="AnyContent">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="tns:AnyContent"/>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="embeddingMethod" type="tns:ValueEmbeddingEnumeration"/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="encoding" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="ValidationModule">
+        <xs:complexContent>
+          <xs:extension base="tns:TestModule">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="configs" type="tns:ConfigurationParameters"/>
+            </xs:sequence>
+            <xs:attribute name="operation" type="xs:string"/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="TestModule">
+        <xs:sequence>
+          <xs:element name="metadata" type="tns:Metadata"/>
+          <xs:element minOccurs="0" name="inputs" type="tns:TypedParameters"/>
+          <xs:element minOccurs="0" name="outputs" type="tns:TypedParameters"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="uri" type="xs:string"/>
+        <xs:attribute name="isRemote" type="xs:boolean"/>
+        <xs:attribute name="serviceLocation" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="ConfigurationParameters">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="param" type="tns:Parameter"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Parameter">
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="use" type="tns:UsageEnumeration"/>
+            <xs:attribute name="kind" type="tns:ConfigurationType"/>
+            <xs:attribute name="desc" type="xs:string"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:complexType name="TypedParameter">
+        <xs:simpleContent>
+          <xs:extension base="tns:Parameter">
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="encoding" type="xs:string"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:complexType name="Metadata">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="type" type="tns:TestCaseType"/>
+          <xs:element name="version" type="xs:string"/>
+          <xs:element minOccurs="0" name="authors" type="xs:string"/>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element minOccurs="0" name="published" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastModified" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TypedParameters">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="param" type="tns:TypedParameter"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MessagingModule">
+        <xs:complexContent>
+          <xs:extension base="tns:TestModule">
+            <xs:sequence>
+              <xs:element name="actorConfigs" type="tns:ConfigurationParameters"/>
+              <xs:element minOccurs="0" name="transactionConfigs" type="tns:ConfigurationParameters"/>
+              <xs:element minOccurs="0" name="listenConfigs" type="tns:ConfigurationParameters"/>
+              <xs:element minOccurs="0" name="receiveConfigs" type="tns:ConfigurationParameters"/>
+              <xs:element minOccurs="0" name="sendConfigs" type="tns:ConfigurationParameters"/>
+            </xs:sequence>
+            <xs:attribute name="isProxy" type="xs:boolean"/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="Endpoint">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="config" type="tns:Parameter"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="desc" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="TestRole">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="endpoint" nillable="true" type="tns:Endpoint"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="role" type="tns:TestRoleEnumeration" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="Actor">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="endpoint" type="tns:Endpoint"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="Roles">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="actor" type="tns:TestRole"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Actors">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="actor" type="tns:Actor"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ErrorInfo">
+        <xs:sequence>
+          <xs:element name="errorCode" type="tns:ErrorCode"/>
+          <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ActorConfiguration">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="config" type="tns:Configuration"/>
+        </xs:sequence>
+        <xs:attribute name="actor" type="xs:string" use="required"/>
+        <xs:attribute name="endpoint" type="xs:string"/>
+      </xs:complexType>
+      <xs:simpleType name="ValueEmbeddingEnumeration">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="STRING"/>
+          <xs:enumeration value="BASE64"/>
+          <xs:enumeration value="URI"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="UsageEnumeration">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="R"/>
+          <xs:enumeration value="O"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ConfigurationType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SIMPLE"/>
+          <xs:enumeration value="BINARY"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TestCaseType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CONFORMANCE"/>
+          <xs:enumeration value="INTEROPERABILITY"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TestRoleEnumeration">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SUT"/>
+          <xs:enumeration value="SIMULATED"/>
+          <xs:enumeration value="MONITOR"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ErrorCode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ACTOR_DEFINITION_NOT_FOUND"/>
+          <xs:enumeration value="ARTIFACT_NOT_FOUND"/>
+          <xs:enumeration value="CANCELLATION"/>
+          <xs:enumeration value="DATATYPE_ERROR"/>
+          <xs:enumeration value="INTERNAL_ERROR"/>
+          <xs:enumeration value="INVALID_SESSION"/>
+          <xs:enumeration value="INVALID_TEST_CASE"/>
+          <xs:enumeration value="MISSING_CONFIGURATION"/>
+          <xs:enumeration value="INVALID_CONFIGURATION"/>
+          <xs:enumeration value="TEST_CASE_DEFINITION_NOT_FOUND"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getModuleDefinition">
+    <wsdl:part element="tns:GetModuleDefinitionRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateResponse">
+    <wsdl:part element="tns:ValidationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getModuleDefinitionResponse">
+    <wsdl:part element="tns:GetModuleDefinitionResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validate">
+    <wsdl:part element="tns:ValidateRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ValidationService">
+    <wsdl:operation name="validate">
+      <wsdl:input message="tns:validate" name="validate"></wsdl:input>
+      <wsdl:output message="tns:validateResponse" name="validateResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModuleDefinition">
+      <wsdl:input message="tns:getModuleDefinition" name="getModuleDefinition"></wsdl:input>
+      <wsdl:output message="tns:getModuleDefinitionResponse" name="getModuleDefinitionResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ValidationServiceSoapBinding" type="tns:ValidationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="validate">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModuleDefinition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getModuleDefinition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getModuleDefinitionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ValidationService">
+    <wsdl:port binding="tns:ValidationServiceSoapBinding" name="ValidatorServicePort">
+      <soap:address location="http://localhost:8080/ADMS-AP_Validator/services/validator"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ADMS-AP_Validator/services/validator</con:endpoint></con:endpoints><con:operation id="a0d2d4d4-418f-471c-8e84-938b5db1e5ba" isOneWay="false" action="" name="getModuleDefinition" bindingOperationName="getModuleDefinition" type="Request-Response" outputName="getModuleDefinitionResponse" inputName="getModuleDefinition" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1fdc83c3-75a7-448a-9afd-68040c8e9ba0" name="getModuleDefinition"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://cpsv-ap.semic.eu/adms-api/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://www.gitb.com/vs/v1/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <v1:GetModuleDefinitionRequest/>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.gitb.com/vs/v1/ValidationService/getModuleDefinition"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="b401d080-4263-4386-91d3-b6d6d2ce6c03" isOneWay="false" action="" name="validate" bindingOperationName="validate" type="Request-Response" outputName="validateResponse" inputName="validate" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f042fde3-4425-46ed-beeb-c8ac0dd3ea22" name="12 error found"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://cpsv-ap.semic.eu/adms-api/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://www.gitb.com/vs/v1/" xmlns:v11="http://www.gitb.com/core/v1/">
    <soapenv:Header/>
    <soapenv:Body>
       <v1:ValidateRequest>
@@ -15,4 +387,20 @@
          </input>
       </v1:ValidateRequest>
    </soapenv:Body>
-</soapenv:Envelope>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.gitb.com/vs/v1/ValidationService/validate"/><con:wsrmConfig version="1.2"/></con:call><con:call id="4b0a561a-c89c-433c-b045-bfd65363ca75" name="Fault message: missing parameter"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://cpsv-ap.semic.eu/adms-api/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://www.gitb.com/vs/v1/" xmlns:v11="http://www.gitb.com/core/v1/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v1:ValidateRequest>
+         <sessionId>?</sessionId>
+         <input name="rulesURI" embeddingMethod="URI" type="?" encoding="?">
+            <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
+         </input>
+         <input name="databaseURI" embeddingMethod="URI" type="?" encoding="?">
+            <v11:value></v11:value>
+         </input>
+         <input name="dataURI" embeddingMethod="URI" type="?" encoding="?">
+            <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
+         </input>
+      </v1:ValidateRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.gitb.com/vs/v1/ValidationService/validate"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
