@@ -2,10 +2,10 @@
 
 This API allows to perform the validation of <a href="https://joinup.ec.europa.eu/asset/dcat_application_profile/description">ADMS-AP</a> RDF files.
 Validation is performed via an API operation which loads a file (Turtle, RDF/XML, N-triples, JSON-LD) as graph in a triple store and it queries the triple store with a SPARQL query.
-The output of the validation can be in XML (HTML with XSLT transformation), JSON, CSV or TSV.
 
 <h2>System requirements</h2>
 
+* Eclipse JEE Neon with CXF 2.x 
 * JDK 8 (minimum)
 * Tomcat 7 (minimum)
 * Virtuoso 07.10.3207 (minimum)
@@ -23,11 +23,11 @@ The output of the validation can be in XML (HTML with XSLT transformation), JSON
 <h2>Rules</h2>
 
 The SPARQL query contains several rules which are based on those available here:
-<a href="https://joinup.ec.europa.eu/asset/dcat_application_profile/asset_release/dcat-application-profile-data-portals-europe-final">DCAT-AP Final 1.1</a>
+<a href="https://joinup.ec.europa.eu/asset/adms/home">ADMS-AP.</a>
 
-<h2>User guide - get definition</h2>
+<h2>User guide - getModuleDefinition</h2>
 
-Launch the getDefinition operation to get the definition of the validate operation.
+Launch the getModuleDefinition operation to get the definition of the validate operation.
 
 <h3>Input</h3>
 
@@ -55,11 +55,10 @@ This structured definition includes:
                <ns2:version>1.0.0</ns2:version>
             </ns2:metadata>
             <ns2:inputs>
-               <ns2:param type="URI" name="URL rules" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate."/>
-               <ns2:param type="URI" name="URL database" use="R" kind="SIMPLE" desc="The url to the database which to query."/>
-               <ns2:param type="URI" name="URL data" use="R" kind="SIMPLE" desc="The url to the data to upload and validate. This parameter is mandatory."/>
-               <ns2:param type="long" name="SessionID" use="O" kind="SIMPLE" desc="The session ID."/>
-               <ns2:param type="String" name="outputFormat" use="O" kind="SIMPLE" desc="The format in which you want the output to be provided. Possible values are: XML, JSON, TSV and CSV. If not provided, the ouput will be in XML format."/>
+               <ns2:param type="URI" name="rulesURI" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate."/>
+               <ns2:param type="URI" name="databaseURI" use="R" kind="SIMPLE" desc="The url to the database which to query."/>
+               <ns2:param type="URI" name="dataURI" use="R" kind="SIMPLE" desc="The url to the data to upload and validate. This parameter is mandatory."/>
+               <ns2:param type="long" name="SessionId" use="O" kind="SIMPLE" desc="The session ID."/>
             </ns2:inputs>
          </module>
       </ns4:GetModuleDefinitionResponse>
@@ -82,8 +81,7 @@ As parameters, please provide:
     
 Optionally, the following parameters may be provided:
     <ol>
-    <li>the session ID, and </li>
-    <li>the format in which you want the output to be provided. Possible values are: XML, JSON, TSV and CSV. If not provided, the output will be in XML format.</li>
+    <li>the session Id, this should be the current time in millisecond as a integer. If not filled in, the session Id will be automatically generated. </li>
     </ol>
 
 Example:
@@ -93,7 +91,7 @@ Example:
    <soapenv:Header/>
    <soapenv:Body>
       <v1:ValidateRequest>
-         <sessionId>12345</sessionId>
+         <sessionId>?</sessionId>
          <input name="rulesURI" embeddingMethod="URI" type="?" encoding="?">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
          </input>
@@ -112,9 +110,12 @@ Example:
 
 The output of the validate operation exists of:
    <ol>
-   <li>a string containing the XML, JSON, CSV or TSV validation result. The output format depends on the provided setting of the "outputFormat" paramater when invoking the operation. If no specification is made, the validation result will be provided as XML.</li>
-   <li>your sessionID, and</li>
-   <li>the amount of results.</li>
+   <li>the date of validation,</li>
+   <li>the overall result of the validation (success or failure),</li>
+   <li>the number of errors,</li>
+   <li>the number of warnings,</li>
+   <li>the context of the validation (i.e. the file which has been validated), and</li>
+   <li>the report, including the structured errors, warnings and info messages.</li>
    </ol>
 
 Example:
