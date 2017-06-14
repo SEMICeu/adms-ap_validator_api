@@ -14,8 +14,6 @@ Validation is performed via an API operation which loads a file (Turtle, RDF/XML
 
 * /src/test/resources - SOAP UI Project to test the web service.
 * /src/main/resources/config.properties - File containing the authentication to virtuoso.
-* /src/main/resources/services/ValidatorService.wsdl - The wsdl file containing the definition of the API.
-* /src/main/resources/entities - XML Schemas used by the wsdl file.
 * /src/main/java/service/ValidatorServiceImpl.java - The webservice business logic.
 * /target/apidocs - HTML documentation of the source code.
 * /target/ADMS-AP_Validator_Service.war - War file to be deployed on an application server.
