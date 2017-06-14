@@ -81,7 +81,7 @@ As parameters, please provide:
     
 Optionally, the following parameters may be provided:
     <ol>
-    <li>the session Id, this should be the current time in millisecond as a integer. If not filled in, the session Id will be automatically generated. </li>
+    <li>the session Id, this should be the current time in millisecond as an integer. If not filled in, the session Id will be automatically generated. </li>
     </ol>
 
 Example:
