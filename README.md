@@ -53,10 +53,10 @@ This structured definition includes:
                <ns2:version>1.0.0</ns2:version>
             </ns2:metadata>
             <ns2:inputs>
-               <ns2:param type="URI" name="rulesURI" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate."/>
-               <ns2:param type="URI" name="databaseURI" use="R" kind="SIMPLE" desc="The url to the database which to query."/>
-               <ns2:param type="URI" name="dataURI" use="R" kind="SIMPLE" desc="The url to the data to upload and validate. This parameter is mandatory."/>
-               <ns2:param type="long" name="SessionId" use="O" kind="SIMPLE" desc="The session ID."/>
+               <ns2:param type="string" name="rulesURI" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate. Only embeddingMethod URI is supported."/>
+               <ns2:param type="string" name="databaseURI" use="R" kind="SIMPLE" desc="The url to the database which to query. Only embeddingMethod STRING is supported."/>
+               <ns2:param type="string" name="dataURI" use="R" kind="SIMPLE" desc="The url to the data to upload and validate. Only embeddingMethod URI is supported."/>
+               <ns2:param type="string" name="SessionId" use="O" kind="SIMPLE" desc="The session ID, this should be the current time in millisecond as an integer. If not filled in, the session Id will be automatically generated."/>
             </ns2:inputs>
          </module>
       </ns4:GetModuleDefinitionResponse>
@@ -90,13 +90,13 @@ Example:
    <soapenv:Body>
       <v1:ValidateRequest>
          <sessionId>?</sessionId>
-         <input name="rulesURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="rulesURI" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
          </input>
-         <input name="databaseURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="databaseURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
          </input>
-         <input name="dataURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="dataURI" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
          </input>
       </v1:ValidateRequest>
