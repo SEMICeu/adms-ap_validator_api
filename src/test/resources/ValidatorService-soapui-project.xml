@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="9706df2a-eebf-47e3-a86a-d55b745aca74" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="89bae3b6-1d6c-4b20-a2be-bd86a92f5fe3" wsaVersion="NONE" name="ValidationServiceSoapBinding" type="wsdl" bindingName="{http://www.gitb.com/vs/v1/}ValidationServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl"><con:part><con:url>http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ValidationService" targetNamespace="http://www.gitb.com/vs/v1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.gitb.com/vs/v1/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+<con:soapui-project id="9706df2a-eebf-47e3-a86a-d55b745aca74" activeEnvironment="Default" name="ValidatorService" resourceRoot="" soapui-version="5.3.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="89bae3b6-1d6c-4b20-a2be-bd86a92f5fe3" wsaVersion="NONE" name="ValidationServiceSoapBinding" type="wsdl" bindingName="{http://www.gitb.com/vs/v1/}ValidationServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl"><con:part><con:url>http://localhost:8080/ADMS-AP_Validator/services/validator?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ValidationService" targetNamespace="http://www.gitb.com/vs/v1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.gitb.com/vs/v1/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
   <wsdl:types>
     <xs:schema targetNamespace="http://www.gitb.com/vs/v1/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.gitb.com/tr/v1/" xmlns:ns1="http://www.gitb.com/core/v1/">
       <xs:import namespace="http://www.gitb.com/core/v1/"/>
@@ -376,13 +376,13 @@
    <soapenv:Body>
       <v1:ValidateRequest>
          <sessionId>?</sessionId>
-         <input name="rulesURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="rulesURI" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
          </input>
-         <input name="databaseURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="databaseURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
          </input>
-         <input name="dataURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="dataURI" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
          </input>
       </v1:ValidateRequest>
@@ -392,13 +392,13 @@
    <soapenv:Body>
       <v1:ValidateRequest>
          <sessionId>?</sessionId>
-         <input name="rulesURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="rulesURI" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
          </input>
-         <input name="databaseURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="databaseURI" embeddingMethod="STRING">
             <v11:value></v11:value>
          </input>
-         <input name="dataURI" embeddingMethod="URI" type="?" encoding="?">
+         <input name="dataURI" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
          </input>
       </v1:ValidateRequest>

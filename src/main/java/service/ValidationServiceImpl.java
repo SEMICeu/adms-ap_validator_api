@@ -87,13 +87,13 @@ public class ValidationServiceImpl implements ValidationService {
         //Set inputs
         response.getModule().setInputs(new TypedParameters());
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"rulesURI", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate."));
+        		"rulesURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate. Only embeddingMethod URI is supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"databaseURI", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query."));
+        		"databaseURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query. Only embeddingMethod STRING is supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"dataURI", "URI", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. This parameter is mandatory."));
+        		"dataURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. Only embeddingMethod URI is supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"SessionId", "long", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID."));
+        		"SessionId", "string", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID, this should be the current time in millisecond as an integer. If not filled in, the session Id will be automatically generated."));
         return response;
         
 	}
@@ -363,7 +363,6 @@ public class ValidationServiceImpl implements ValidationService {
     	for (int i = 0; i < lines.size(); i++) {
     		while (lines.get(i).contains(",,")) {
     			lines.set(i, lines.get(i).replaceAll(",,", ",NA,"));
-    			System.out.println(i + ": " + lines);
     		}
     	}
     	
