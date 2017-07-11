@@ -72,7 +72,7 @@ Launch the validate operation to validate a file using the SPARQL query (see [Ru
 
 As parameters, please provide:
     <ol>
-    <li>the file to be validated (either the URL or the content),</li>
+    <li>the file to be validated (either a URL to the file or the content of the file itself),</li>
     <li>the URL of the database to query,</li>
     <li>the URL of the rules to be used to validate,</li>
     </ol>
