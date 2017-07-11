@@ -47,6 +47,7 @@ import com.gitb.core.TypedParameter;
 import com.gitb.core.TypedParameters;
 import com.gitb.core.UsageEnumeration;
 import com.gitb.core.ValidationModule;
+import com.gitb.core.ValueEmbeddingEnumeration;
 import com.gitb.tr.BAR;
 import com.gitb.tr.ObjectFactory;
 import com.gitb.tr.TAR;
@@ -91,7 +92,7 @@ public class ValidationServiceImpl implements ValidationService {
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"databaseURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query. Only embeddingMethod STRING is supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"dataURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the data to upload and validate. Only embeddingMethod URI is supported."));
+        		"data", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The data to upload and validate. Only embeddingMethods URI and STRING are supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"SessionId", "string", UsageEnumeration.O, ConfigurationType.SIMPLE, "The session ID, this should be the current time in millisecond as an integer. If not filled in, the session Id will be automatically generated."));
         return response;
@@ -135,23 +136,30 @@ public class ValidationServiceImpl implements ValidationService {
 		
 		ValidationResponse response = new ValidationResponse();
 		
-		String sessionID = null, rulesURI = null, databaseURI = null, dataURI = null;
+		String sessionID = null, rulesURI = null, databaseURI = null, data = null, dataEmbeddingMethod = null;
 		
 		for (AnyContent anInput: parameters.getInput()) {
             if (anInput.getName().equals("rulesURI")) {
             	rulesURI = anInput.getValue();
             } else if (anInput.getName().equals("databaseURI")) {
             	databaseURI = anInput.getValue();
-            } else if (anInput.getName().equals("dataURI")) {
-            	dataURI = anInput.getValue();
+            } else if (anInput.getName().equals("data")) {
+            	data = anInput.getValue();
+            	if (anInput.getEmbeddingMethod() == ValueEmbeddingEnumeration.STRING) {
+            		dataEmbeddingMethod = "STRING";
+            	} else if (anInput.getEmbeddingMethod() == ValueEmbeddingEnumeration.URI) {
+            		dataEmbeddingMethod = "URI";
+            	} else if (anInput.getEmbeddingMethod() == ValueEmbeddingEnumeration.BASE_64) {
+            		throw new RuntimeException("Embedding Method BASE_64 is not supported for the data.");
+            	}
             } 
 		}
 		sessionID = parameters.getSessionId();
 		
 		// The data, database and rules URI are mandatory parameters.
 		// Check if it is filled in. If not (IF), skip all steps and warn the user; ELSE: do steps.
-		if (dataURI == null || dataURI.equalsIgnoreCase("?") 
-				|| dataURI.toString().equalsIgnoreCase("")
+		if (data == null || data.equalsIgnoreCase("?") 
+				|| data.toString().equalsIgnoreCase("")
 			|| databaseURI == null || databaseURI.toString().equalsIgnoreCase("?") 
 					|| databaseURI.toString().equalsIgnoreCase("")
 			|| rulesURI == null || rulesURI.equalsIgnoreCase("?") 
@@ -166,8 +174,13 @@ public class ValidationServiceImpl implements ValidationService {
 				sessionID = String.valueOf( new Timestamp( (new Date()).getTime() ).getTime() );
 			}
 			
-			// Get file as String.
-			String file = getText(dataURI);
+			// Get file as String. If the URI is provided, download the content.
+			String file = null;
+			if (dataEmbeddingMethod.equalsIgnoreCase("STRING")) {
+				file = data;
+			} else if (dataEmbeddingMethod.equalsIgnoreCase("URI")) {
+				file = getText(data);
+			}
 			// Get SPARQL query as String.
 			String rules = getText(rulesURI);
 			// Fill in the graph URI in the WHERE statement of the SPARQL query.

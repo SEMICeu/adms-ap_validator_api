@@ -382,7 +382,7 @@
          <input name="databaseURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
          </input>
-         <input name="dataURI" embeddingMethod="URI">
+         <input name="data" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
          </input>
       </v1:ValidateRequest>
@@ -398,8 +398,84 @@
          <input name="databaseURI" embeddingMethod="STRING">
             <v11:value></v11:value>
          </input>
-         <input name="dataURI" embeddingMethod="URI">
+         <input name="data" embeddingMethod="URI">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/samples/sample-turtle2.ttl</v11:value>
+         </input>
+      </v1:ValidateRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.gitb.com/vs/v1/ValidationService/validate"/><con:wsrmConfig version="1.2"/></con:call><con:call id="6a55bf99-86ea-4463-b8bf-2d662ecb0331" name="12 error found; string input"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://cpsv-ap.semic.eu/adms-api/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://www.gitb.com/vs/v1/" xmlns:v11="http://www.gitb.com/core/v1/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v1:ValidateRequest>
+         <sessionId>?</sessionId>
+         <input name="rulesURI" embeddingMethod="URI">
+            <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
+         </input>
+         <input name="databaseURI" embeddingMethod="STRING">
+            <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
+         </input>
+         <input name="data" embeddingMethod="STRING">
+            <v11:value>
+            @prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix ns0: <c> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix v: <http://rdf.data-vocabulary.org/#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+
+<http://joinup.ec.europa.eu/unique_identifier>
+  a dcat:Dataset ;
+  dc:title "EIRA_v0.9.0_beta"@en ;
+  dc:description """This Archi file provides the ArchiMate model of the European Interoperability Reference Architecture (EIRA). The EIRA has been developed in the context of Action 2.1 of the Interoperability Solutions for European Public Administrations (ISA) Programme. The EIRA is a reference architecture focused on the interoperability of digital public services. It is composed of the most important architecture building blocks needed to promote cross-border and cross-sector interactions between public administrations. It is based on the Service Oriented Architecture style and uses ArchiMate as a modelling notation. The EIRA implements the European Interoperability Framework (EIF) . 
+
+The latest release of the EIRA is available on Joinup: https://joinup.ec.europa.eu/asset/eia/description"""@en ;
+  ns0:omposedOf "" .
+
+<http://joinup.ec.europa.eu/ABB165>
+  a dcat:Dataset ;
+  dc:type <http://data.europa.eu/eira/LegislationCatalogue> ;
+  dc:title "Legislation Catalogue Solution BB"@en ;
+  dc:description "A Legislation Catalogue is a set of legal documents."@en ;
+  dcat:keyword "legislation" ;
+  dcat:landingPage <https://joinup.ec.europa.eu/example/LegislationCatalogue> ;
+  dc:modified "2015-12-15" ;
+  dcat:distribution <https://joinup.ec.europa.eu/distribution>, <https://joinup.ec.europa.eu/distribution2> .
+
+<http://data.europa.eu/eli/dir/2006/123/oj>
+  a dcat:Dataset ;
+  dc:type <http://data.europa.eu/eira/PublicPolicy>, <http://data.europa.eu/eira/BindingInstrument> ;
+  dc:title "Services Directory"@en ;
+  dc:description "The objective of the Services Directive is to realise the full potential of services markets in Europe by removing legal and administrative barriers to trade. The simplification measures introduced by the Directive have increased transparency and made it easier for businesses and consumers to provide or use services in the Single Market. The Directive was adopted in 2006 and implemented by all EU countries in 2009. The European Commission is now working with EU countries to further improve the Single Market for services."@en ;
+  dcat:contactPoint <http://data.europa.eu/contact/mrx> ;
+  dc:publisher <http://data.europa.eu/publisher/EP> ;
+  dcat:keyword "public services", "european union" ;
+  dcat:landingPage <http://ec.europa.eu/growth/single-market/services/services-directive/index_en.htm> ;
+  dc:relation <http://data.europa.eu/URI/CPSVAP> .
+
+<http://data.europa.eu/publisher/EP>
+  a foaf:Agent ;
+  foaf:name "European Parliament" .
+
+<http://data.europa.eu/contact/mrx>
+  a v:Kind ;
+  vcard:fn "Mr X" ;
+  vcard:hasEmail "mrx@host.com" .
+
+<http://data.europa.eu/URI/CPSVAP>
+  a dcat:Dataset ;
+  dc:type <http://data.europa.eu/eira/CoreDataModel> ;
+  dc:title "CPSV-AP"@en ;
+  dc:description "The CPSV-AP has been defined as an Application Profile of the ISA� Core Public Service Vocabulary (CPSV). An Application Profile is a specification that re-uses terms from one or more base standards, adding more specificity by identifying mandatory, recommended and optional elements to be used for a particular application, as well as recommendations for controlled vocabularies to be used."@en ;
+  dcat:contactPoint <http://data.europa.eu/contact/mrx> ;
+  dc:publisher <http://data.europa.eu/publisher/ISA> ;
+  dcat:keyword "services directory", "businesses" ;
+  dcat:landingPage <https://joinup.ec.europa.eu/asset/cpsv-ap/asset_release/core-public-service-vocabulary-application-profile-v100> ;
+  dcat:distribution <https://joinup.ec.europa.eu/system/files/project/d02.02_-_definition_and_development_of_a_data_model_for_description_of_the_services_related_to_kbe-v1.05.docx> .
+
+<http://data.europa.eu/publisher/ISA>
+  a foaf:Agent ;
+  foaf:name "ISA" .
+            </v11:value>
          </input>
       </v1:ValidateRequest>
    </soapenv:Body>
