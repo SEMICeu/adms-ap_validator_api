@@ -63,7 +63,7 @@ import com.gitb.vs.Void;
 @WebService(serviceName="ValidationService",
 			endpointInterface="com.gitb.vs.ValidationService",
 			targetNamespace="http://www.gitb.com/vs/v1/",
-			portName="ValidatorServicePort",
+			portName="ValidationServicePort",
 			name="ValidationServiceImpl")
 public class ValidationServiceImpl implements ValidationService {
 	String username;
@@ -88,7 +88,7 @@ public class ValidationServiceImpl implements ValidationService {
         //Set inputs
         response.getModule().setInputs(new TypedParameters());
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
-        		"rulesURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate. Only embeddingMethod URI is supported."));
+        		"rulesURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the rules to be used to validate. Only embeddingMethod STRING is supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
         		"databaseURI", "string", UsageEnumeration.R, ConfigurationType.SIMPLE, "The url to the database which to query. Only embeddingMethod STRING is supported."));
         response.getModule().getInputs().getParam().add(setModuleDefinitionResponse(
