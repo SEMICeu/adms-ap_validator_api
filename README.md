@@ -53,7 +53,7 @@ This structured definition includes:
                <ns2:version>1.0.0</ns2:version>
             </ns2:metadata>
             <ns2:inputs>
-               <ns2:param type="string" name="rulesURI" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate. Only embeddingMethod URI is supported."/>
+               <ns2:param type="string" name="rulesURI" use="R" kind="SIMPLE" desc="The url to the rules to be used to validate. Only embeddingMethod STRING is supported."/>
                <ns2:param type="string" name="databaseURI" use="R" kind="SIMPLE" desc="The url to the database which to query. Only embeddingMethod STRING is supported."/>
                <ns2:param type="string" name="data" use="R" kind="SIMPLE" desc="The data to upload and validate. Only embeddingMethods URI and STRING are supported."/>
                <ns2:param type="string" name="SessionId" use="O" kind="SIMPLE" desc="The session ID, this should be the current time in millisecond as an integer. If not filled in, the session Id will be automatically generated."/>
