@@ -379,7 +379,7 @@
          <input name="rulesURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
          </input>
-         <input name="databaseURI" embeddingMethod="URI">
+         <input name="databaseURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
          </input>
          <input name="data" embeddingMethod="URI">
@@ -411,7 +411,7 @@
          <input name="rulesURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/adms-ap_validator/adms-ap.txt</v11:value>
          </input>
-         <input name="databaseURI" embeddingMethod="URI">
+         <input name="databaseURI" embeddingMethod="STRING">
             <v11:value>http://cpsv-ap.semic.eu/sparql</v11:value>
          </input>
          <input name="data" embeddingMethod="STRING">
